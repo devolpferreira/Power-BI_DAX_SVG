@@ -1,0 +1,255 @@
+Filtros_Aplicados_HTML_Contador = 
+/* ---------- CORES BASE ---------- */
+VAR _CorTodos = [_Cor_Amarelo_Pastel_Muito_Claro]
+VAR _CorSelecionado = "#DFF4E1"
+VAR _CorTexto = [_Cor_Preto_Cinza]
+VAR _CorMulti = [_Cor_Amarelo_Pastel_Muito_Claro] /* ---------- VALORES DOS FILTROS ---------- */
+VAR vTipoInsumo =
+    IF (
+        ISFILTERED ( fEstoqueGeral[TIPO INSUMO AJUSTADO] ),
+        CONCATENATEX (
+            VALUES ( fEstoqueGeral[TIPO INSUMO AJUSTADO] ),
+            fEstoqueGeral[TIPO INSUMO AJUSTADO],
+            ", "
+        ),
+        "Todos"
+    )
+VAR vIntervalos =
+    IF (
+        ISFILTERED ( fEstoqueGeral[INTERVALO DE DIAS] ),
+        CONCATENATEX (
+            VALUES ( fEstoqueGeral[INTERVALO DE DIAS] ),
+            fEstoqueGeral[INTERVALO DE DIAS],
+            ", "
+        ),
+        "Todos"
+    )
+VAR vTipoLocal =
+    IF (
+        ISFILTERED ( fEstoqueGeral[TIPO LOCAL AJUSTADO] ),
+        CONCATENATEX (
+            VALUES ( fEstoqueGeral[TIPO LOCAL AJUSTADO] ),
+            fEstoqueGeral[TIPO LOCAL AJUSTADO],
+            ", "
+        ),
+        "Todos"
+    )
+VAR vStatusVencimento =
+    IF (
+        ISFILTERED ( fEstoqueGeral[STATUS_AJUSTADO] ),
+        CONCATENATEX (
+            VALUES ( fEstoqueGeral[STATUS_AJUSTADO] ),
+            fEstoqueGeral[STATUS_AJUSTADO],
+            ", "
+        ),
+        "Todos"
+    )
+VAR vStatusEstoque =
+    IF (
+        ISFILTERED ( fEstoqueGeral[STATUS ESTOQUE] ),
+        CONCATENATEX (
+            VALUES ( fEstoqueGeral[STATUS ESTOQUE] ),
+            fEstoqueGeral[STATUS ESTOQUE],
+            ", "
+        ),
+        "Todos"
+    )
+VAR vArmazem =
+    IF (
+        ISFILTERED ( dArmazem[DESCRICAO LOCAL]),
+        CONCATENATEX (
+            VALUES ( dArmazem[DESCRICAO LOCAL]),
+            dArmazem[DESCRICAO LOCAL],
+            ", "
+        ),
+        "Todos"
+    ) /* ---------- CONTADOR (soma as seleções) ---------- */
+VAR _QtdeFiltrosAtivos =
+    VAR _TipoInsumo =
+        IF (
+            ISFILTERED ( fEstoqueGeral[TIPO INSUMO AJUSTADO] ),
+            COUNTROWS ( VALUES ( fEstoqueGeral[TIPO INSUMO AJUSTADO] ) ),
+            0
+        )
+    VAR _Intervalo =
+        IF (
+            ISFILTERED ( fEstoqueGeral[INTERVALO DE DIAS] ),
+            COUNTROWS ( VALUES ( fEstoqueGeral[INTERVALO DE DIAS] ) ),
+            0
+        )
+    VAR _TipoLocal =
+        IF (
+            ISFILTERED ( fEstoqueGeral[TIPO LOCAL AJUSTADO] ),
+            COUNTROWS ( VALUES ( fEstoqueGeral[TIPO LOCAL AJUSTADO] ) ),
+            0
+        )
+    VAR _StatusVenc =
+        IF (
+            ISFILTERED ( fEstoqueGeral[STATUS_AJUSTADO] ),
+            COUNTROWS ( VALUES ( fEstoqueGeral[STATUS_AJUSTADO] ) ),
+            0
+        )
+    VAR _StatusEst =
+        IF (
+            ISFILTERED ( fEstoqueGeral[STATUS ESTOQUE] ),
+            COUNTROWS ( VALUES ( fEstoqueGeral[STATUS ESTOQUE] ) ),
+            0
+        )
+    VAR _Armazem =
+        IF (
+            ISFILTERED (dArmazem[DESCRICAO LOCAL]),
+            COUNTROWS ( VALUES ( dArmazem[DESCRICAO LOCAL]) ),
+            0
+        )
+    RETURN
+        _TipoInsumo + _Intervalo + _TipoLocal + _StatusVenc + _StatusEst + _Armazem /* ---------- COR DO CONTADOR (dinâmica, mas sutil) ---------- */
+        
+VAR _CorContador =
+    IF (
+        _QtdeFiltrosAtivos = 0,
+        "#1E6D4F",  // Verde padrão (nenhum filtro)  
+        "#0078D7" // Azul elegante quando há filtros ativos
+    )
+     
+    /* ---------- CLASSES ---------- */
+VAR _clsAll = "fx-val fx-val--all"
+VAR _clsMulti = "fx-val--multi"
+VAR _clsVal = "fx-val"
+VAR _cTipoInsumo =
+    IF (
+        vTipoInsumo = "Todos",
+        _clsAll,
+        IF ( CONTAINSSTRING ( vTipoInsumo, "," ), _clsMulti, _clsVal )
+    )
+VAR _cIntervalos =
+    IF (
+        vIntervalos = "Todos",
+        _clsAll,
+        IF ( CONTAINSSTRING ( vIntervalos, "," ), _clsMulti, _clsVal )
+    )
+VAR _cTipoLocal =
+    IF (
+        vTipoLocal = "Todos",
+        _clsAll,
+        IF ( CONTAINSSTRING ( vTipoLocal, "," ), _clsMulti, _clsVal )
+    )
+VAR _cStatusVencimento =
+    IF (
+        vStatusVencimento = "Todos",
+        _clsAll,
+        IF ( CONTAINSSTRING ( vStatusVencimento, "," ), _clsMulti, _clsVal )
+    )
+VAR _cStatusEstoque =
+    IF (
+        vStatusEstoque = "Todos",
+        _clsAll,
+        IF ( CONTAINSSTRING ( vStatusEstoque, "," ), _clsMulti, _clsVal )
+    )
+VAR _cArmazem =
+    IF (
+        vArmazem = "Todos",
+        _clsAll,
+        IF ( CONTAINSSTRING ( vArmazem, "," ), _clsMulti, _clsVal )
+    ) 
+    
+    
+    /* ---------- CSS ---------- */
+VAR vCss = "<style>
+    .fx-wrap {
+        font-family: " & [_Fonte_Padrao] & ";
+        background: linear-gradient(180deg, #FFFFFF 0%, #F9FBFD 100%);
+        border-radius: 18px;
+        padding: 26px 30px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        width: 100%;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .fx-title {
+        margin: 0 0 16px 0;
+        font-size: 22px;
+        font-weight: " & [_Font_Weight_Semi_Bold] & ";
+        color: " & [_Cor_Verde_Floresta_Escuro] & ";
+        border-bottom: 1.5px solid rgba(0, 0, 0, 0.08);
+        padding-bottom: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .fx-count {
+        background: " & _CorContador & ";
+        color: #fff;
+        border-radius: 50%;
+        width: 34px;
+        height: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        font-weight: 700;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+        transition: background 0.4s ease;
+    }
+
+    .fx-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 14px;
+    }
+
+    .fx-label {
+        font-weight: 600;
+        color: " & _CorTexto & ";
+        margin-right: 6px;
+        font-size: 16px;
+        line-height: 1.4;
+        min-width: 180px;
+        display: inline-block;
+    }
+
+    .fx-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 6px;
+        flex-wrap: wrap;
+    }
+
+    .fx-val {
+        background: " & _CorSelecionado & ";
+        color: " & _CorTexto & ";
+        padding: 3px 12px;
+        border-radius: 14px;
+        font-size: " & [_Font_Size_12] & ";
+        display: inline-block;
+        font-weight: 500;
+    }
+
+    .fx-val--all {
+        background: " & _CorTodos & ";
+    }
+
+    .fx-val--multi {
+        background: " & _CorMulti & ";
+    }
+</style>"
+ 
+ /* ---------- HTML ---------- */
+VAR vHTML = "
+<div class='fx-wrap'>
+    <div class='fx-title'>
+        <span>Filtros aplicados</span>
+        <div class='fx-count'>" & _QtdeFiltrosAtivos & "</div>
+    </div>
+    <div class='fx-grid'>
+        <div class='fx-row'><span class='fx-label'>Tipo Insumo:</span><span class=" & _cTipoInsumo & ">" & vTipoInsumo & "</span></div>
+        <div class='fx-row'><span class='fx-label'>Intervalo de Dias:</span><span class=" & _cIntervalos & ">" & vIntervalos & "</span></div>
+        <div class='fx-row'><span class='fx-label'>Tipo de Local:</span><span class=" & _cTipoLocal & ">" & vTipoLocal & "</span></div>
+        <div class='fx-row'><span class='fx-label'>Status de Vencimento:</span><span class=" & _cStatusVencimento & ">" & vStatusVencimento & "</span></div>
+        <div class='fx-row'><span class='fx-label'>Status Estoque:</span><span class=" & _cStatusEstoque & ">" & vStatusEstoque & "</span></div>
+        <div class='fx-row'><span class='fx-label'>Armazém Selecionado:</span><span class=" & _cArmazem & ">" & vArmazem & "</span></div>
+    </div>
+</div>"
+RETURN
+    vCss & vHTML
