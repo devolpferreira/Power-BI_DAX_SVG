@@ -1,7 +1,10 @@
 # 📊 Power BI • DAX • SVG • HTML  
-### Repositório de Estudos, Padrões e Exemplos Reutilizáveis
+## Uso
 
-Este repositório reúne **exemplos práticos, padrões técnicos e soluções reutilizáveis** voltadas para **Power BI**, com foco em:
+Este repositório é destinado a estudo e referência.
+Para utilizar os exemplos, faça um clone ou fork e adapte ao seu modelo de dados.
+
+Reúne **exemplos práticos, padrões técnicos e soluções reutilizáveis** voltadas para **Power BI**, com foco em:
 
 - Medidas **DAX avançadas**
 - **Design System em DAX** (cores, fontes, estilos)
