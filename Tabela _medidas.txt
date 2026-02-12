@@ -1,0 +1,1295 @@
+createOrReplace
+
+	table _Medidas
+		lineageTag: 004b61de-80de-4cb4-965c-033225927769
+
+		measure '1.1 Percentual Vencido' = ```
+				
+				DIVIDE(
+				    [1.1 Total Vencido], 
+				    [1 Total Estoque], 
+				    0
+				) 
+				```
+			formatString: 0.00%;-0.00%;0.00%
+			displayFolder: 1.1 Vencido
+			lineageTag: d4452e13-67c3-4735-adc7-2319d1f0d811
+
+		measure '1.1 Total Vencido' = ```
+				
+				CALCULATE(
+				    [1 Total Estoque],
+				    'fPosicaoEstoque'[Status Produto] = "VENCIDO"
+				)
+				
+				```
+			formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+			displayFolder: 1.1 Vencido
+			lineageTag: 7e57f74e-573d-4e1f-bb2c-2f9475f4e932
+
+			annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+		measure '1.1.2 Percentual Diferença Vencido Mês a Mês' = ```
+				
+				VAR vVencidoAtual = [1.1 Total Vencido]
+				VAR vVencidoMesAnterior = 
+				    CALCULATE(
+				        [1.1 Total Vencido],
+				        DATEADD('dCalendario'[Data], -1, MONTH)
+				    )
+				RETURN
+				IF(
+				    ISBLANK(vVencidoMesAnterior),
+				    BLANK(),
+				    DIVIDE(vVencidoAtual - vVencidoMesAnterior, vVencidoMesAnterior, 0) 
+				)
+				```
+			formatString: 0.00%;-0.00%;0.00%
+			displayFolder: 1.1 Vencido
+			lineageTag: b7d263f5-b847-4818-aec9-98f36b3a66fa
+
+		measure '1.1.2 Total Vencido Mês Anterior' = ```
+				
+				CALCULATE(
+				    [1.1 Total Vencido], 
+				    DATEADD('dCalendario'[Data], -1, MONTH)
+				)
+				```
+			formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+			displayFolder: 1.1 Vencido
+			lineageTag: d0e440d2-ea45-45f6-a7e2-8550a87ffdb2
+
+			annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+		measure '1.1.2 Percentual Diferença Vencendo Mês a Mês' = ```
+				
+				VAR vVencidoAtual = [1.2 Total Vencendo]
+				VAR vVencidoMesAnterior = 
+				    CALCULATE(
+				        [1.2 Total Vencendo],
+				        DATEADD('dCalendario'[Data], -1, MONTH)
+				    )
+				RETURN
+				IF(
+				    ISBLANK(vVencidoMesAnterior),
+				    BLANK(),
+				    DIVIDE(vVencidoAtual - vVencidoMesAnterior, vVencidoMesAnterior, 0) 
+				)
+				```
+			formatString: 0.00%;-0.00%;0.00%
+			displayFolder: 1.2 Vencendo
+			lineageTag: 97706195-8f58-4830-92c8-9fdc9b6acb8c
+
+		measure '1.1.2 Percentual Vencendo' = ```
+				
+				DIVIDE(
+				    [1.2 Total Vencendo], 
+				    [1 Total Estoque], 
+				    0
+				) 
+				```
+			formatString: 0.00%;-0.00%;0.00%
+			displayFolder: 1.2 Vencendo
+			lineageTag: 70bfc644-a9c8-4ded-a014-879adf496aa3
+
+		measure '1.2 Total Vencendo' = ```
+				CALCULATE(
+				    [1 Total Estoque],
+				    'fPosicaoEstoque'[Status Produto] = "VENCENDO"
+				)
+				
+				```
+			formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+			displayFolder: 1.2 Vencendo
+			lineageTag: d5a96f30-c485-4ea2-937e-82d23e8b4a88
+
+			annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+		measure '1.2 Total Vencendo Mês Anterior' = ```
+				
+				CALCULATE(
+				    [1.2 Total Vencendo], 
+				    DATEADD('dCalendario'[Data], -1, MONTH)
+				)
+				```
+			formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+			displayFolder: 1.2 Vencendo
+			lineageTag: f503b856-959a-4e98-9d95-3a1746e31937
+
+			annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+		measure '1.1.3 Percentual Diferença A Vencer Mês a Mês' = ```
+				
+				DIVIDE(
+				    [1.3 Total A Vencer] - [1.1.3 Total A Vencer Mês Anterior],
+				    [1.1.3 Total A Vencer Mês Anterior], 
+				    0
+				)
+				```
+			formatString: 0.00%;-0.00%;0.00%
+			displayFolder: 1.3 A Vencer
+			lineageTag: c0c6b646-2f0b-4448-ae29-0e59902d9a8a
+
+		measure '1.1.3 Total A Vencer Mês Anterior' = ```
+				
+				CALCULATE(
+				    [1.3 Total A Vencer], 
+				    DATEADD('dCalendario'[Data], -1, MONTH)
+				)
+				```
+			formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+			displayFolder: 1.3 A Vencer
+			lineageTag: 8979b038-fa97-4d36-abd5-edafe0381513
+
+			annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+		measure '1.3 Percentual A Vencer' = ```
+				
+				DIVIDE(
+				    [1.3 Total A Vencer], 
+				    [1 Total Estoque], 
+				    0
+				) 
+				```
+			formatString: 0.00%;-0.00%;0.00%
+			displayFolder: 1.3 A Vencer
+			lineageTag: 247bd63a-960b-455e-8996-1f4c3b0b9fe3
+
+		measure '1.3 Total A Vencer' =
+				CALCULATE(
+				    [1 Total Estoque],
+				    'fPosicaoEstoque'[Status Produto] = "A VENCER"
+				)
+			formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+			displayFolder: 1.3 A Vencer
+			lineageTag: 04a54cb0-46c2-40ae-b017-3ac9d44f3f3e
+
+			annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+		measure '1 Total Estoque' =
+				
+				IF(
+				    HASONEVALUE(dCalendario[Data]),
+				    IF(
+				        SUMX(fPosicaoEstoque, fPosicaoEstoque[VLR. TOTAL]) <> 0,
+				        SUMX(fPosicaoEstoque, fPosicaoEstoque[VLR. TOTAL]),
+				        BLANK()
+				    ),
+				    SUMX(fPosicaoEstoque, fPosicaoEstoque[VLR. TOTAL])
+				)
+			formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+			displayFolder: 1.0 Tempo
+			lineageTag: c70b7faf-25fa-4b04-a8d6-bf8b1a391973
+
+			annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+		measure '1.1 Eixo y Maximo Estoque Total' =
+				
+				
+				VAR vTabela = ALLSELECTED(dCalendario[MesNomeAbrev], dCalendario[MesNum])
+				
+				VAR vMaiorAtual =
+				        MAXX(vTabela, [1 Total Estoque])
+				
+				
+				VAR vDeslocamento = 1.3
+				
+				RETURN
+				    vMaiorAtual * vDeslocamento
+			displayFolder: 1.4 Configuração
+			lineageTag: f08c7fcc-c66c-4b1c-bae2-1c7ded727680
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		measure '1.1 Percentual Vencido x Vencendo' = ```
+				
+				DIVIDE(
+				    [1.1 Total Vencido], 
+				    [1.2 Total Vencendo], 
+				    0
+				) 
+				```
+			displayFolder: 1.0 Tempo
+			lineageTag: b8677635-7b19-4643-b7de-f887f453825b
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		measure '1.1 Rotulo Total Estoque' = ```
+				
+				
+				VAR vValor = [1 Total Estoque]
+				RETURN 
+				    SWITCH(
+				        TRUE(),
+				         vValor >= 1000000000, FORMAT(vValor , "0,0,,,.0 Bi"),
+				         vValor >= 1000000, FORMAT(vValor , "0,0,,.0 Mi"),
+				         vValor >= 1000, FORMAT(vValor , "0,0,.0 K"),
+				         FORMAT(vValor , "0")
+				    )
+				```
+			displayFolder: 1.0 Tempo
+			lineageTag: 52874af8-0739-4dff-b951-06ed502f7bed
+
+		measure '1.1 Total Mês Anterior' = ```
+				
+				VAR vMesAnterior = 
+				    CALCULATE(
+				        [1 Total Estoque],
+				        DATEADD('dCalendario'[Data], -1, MONTH)
+				    )
+				RETURN
+				IF(
+				    ISBLANK([1 Total Estoque]), 
+				    BLANK(), 
+				    IF(
+				        ISBLANK(vMesAnterior),
+				        0.00,
+				        vMesAnterior
+				    )
+				)
+				
+				
+				```
+			formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+			displayFolder: 1.0 Tempo
+			lineageTag: fc7c3d93-7c68-4572-95d4-0501c80eb6fb
+
+			annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+		measure '1.1.1 Percentual Diferença Total Mês a Mês' = ```
+				
+				DIVIDE(
+				    [1 Total Estoque] - [1.1 Total Mês Anterior],
+				    [1.1 Total Mês Anterior], 
+				    0
+				)
+				
+				```
+			formatString: 0.00%;-0.00%;0.00%
+			displayFolder: 1.0 Tempo
+			lineageTag: 8eedd1f4-5e93-4731-91bb-07cb4b8b895e
+
+		measure '2 Ultimo Mes ?' = ```
+				
+				
+				VAR vMes_contexto = 
+				    SELECTEDVALUE(dCalendario[MesNum])
+				
+				
+				VAR vUltimoMes = 
+				        CALCULATE(
+				            MONTH(MAX(fPosicaoEstoque[DATA POSIÇÂO])),
+				            ALLSELECTED(dCalendario[MesNomeAbrev], dCalendario[MesNum])
+				        )
+				
+				VAR vCheck =
+				    IF(vMes_contexto = vUltimoMes, "s")
+				
+				RETURN 
+				   vCheck
+				```
+			displayFolder: 1.4 Configuração
+			lineageTag: e6d6acc3-a97e-41ed-9439-4a9c9900ccaf
+
+		measure '2 Vencimento em 120 Dias' =
+				
+				CALCULATE(
+				    [1 Total Estoque],
+				    fPosicaoEstoque[Dias] > 90,
+				    fPosicaoEstoque[Dias] <= 120
+				)
+			formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+			displayFolder: 1.0 Tempo
+			lineageTag: 08d0d947-239f-4d40-9d47-bbe9f04888e5
+
+			annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+		measure '2 Vencimento em 30 Dias' = ```
+				
+				CALCULATE(
+				    [1 Total Estoque],
+				    fPosicaoEstoque[Dias] > 0,
+				    fPosicaoEstoque[Dias] <= 30
+				)
+				
+				```
+			formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+			displayFolder: 1.0 Tempo
+			lineageTag: 743b72df-9c7b-48a3-96bd-a59f40ba0666
+
+			annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+		measure '2 Vencimento em 60 Dias' =
+				
+				CALCULATE(
+				    [1 Total Estoque],
+				    fPosicaoEstoque[Dias] > 31,
+				    fPosicaoEstoque[Dias] <= 60
+				)
+			formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+			displayFolder: 1.0 Tempo
+			lineageTag: ad025300-206c-47bf-b2fa-bdab7663b5c4
+
+			annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+		measure '2 Vencimento em 90 Dias' =
+				
+				CALCULATE(
+				    [1 Total Estoque],
+				    fPosicaoEstoque[Dias] > 60,
+				    fPosicaoEstoque[Dias] <= 90
+				)
+			formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+			displayFolder: 1.0 Tempo
+			lineageTag: d440d707-6770-49ad-865e-c2ee0a9a2af2
+
+			annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+		measure '2.1 Qtd Vencimento em 120 Dias' = ```
+				
+				CALCULATE(
+				    SUM(fPosicaoEstoque[QUANTIDADE]),
+				    fPosicaoEstoque[Dias] > 90,
+				    fPosicaoEstoque[Dias] <= 120
+				)
+				
+				```
+			formatString: #,0.00
+			displayFolder: 1.0 Tempo
+			lineageTag: dae9a139-4ee5-4055-9458-edc5cb559a33
+
+		measure '2.1 Qtd Vencimento em 30 Dias' = ```
+				
+				CALCULATE(
+				    SUM(fPosicaoEstoque[QUANTIDADE]),
+				    fPosicaoEstoque[Dias] > 0,
+				    fPosicaoEstoque[Dias] <= 30
+				)
+				
+				```
+			formatString: #,0.00
+			displayFolder: 1.0 Tempo
+			lineageTag: 5528046a-aabd-4557-9554-3b2ffc20ad69
+
+		measure '2.1 Qtd Vencimento em 60 Dias' = ```
+				
+				CALCULATE(
+				    SUM(fPosicaoEstoque[QUANTIDADE]),
+				    fPosicaoEstoque[Dias] > 31,
+				    fPosicaoEstoque[Dias] <= 60
+				)
+				
+				```
+			formatString: #,0.00
+			displayFolder: 1.0 Tempo
+			lineageTag: a6db3ae1-645e-4a71-869f-52805fc96046
+
+		measure '2.1 Qtd Vencimento em 90 Dias' = ```
+				
+				CALCULATE(
+				    SUM(fPosicaoEstoque[QUANTIDADE]),
+				    fPosicaoEstoque[Dias] > 60,
+				    fPosicaoEstoque[Dias] <= 90
+				)
+				
+				```
+			formatString: #,0.00
+			displayFolder: 1.0 Tempo
+			lineageTag: 0c86809d-fc26-4aa4-9ee8-c0f780170d00
+
+		measure 'Valor Estoque Atual' = ```
+				
+				        SUMX( fEstoqueGeral, 
+				                   fEstoqueGeral[CUSTO UNITARIO AJUSTADO] * fEstoqueGeral[ESTOQUE AJUSTADO]
+				           )
+				```
+			displayFolder: 1.5 Estoque Quimicos
+			lineageTag: 6ffec0fb-e34d-45d9-a78f-3e726e8ba153
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		measure 'Valor Total Vencido' =
+				
+				COALESCE(
+				    CALCULATE(
+				        [Valor Estoque Atual],
+				        'fEstoqueGeral'[STATUS] = "VENCIDO"
+				    ),
+				    0.00
+				)
+			formatString: "R$"#,0.00;-"R$"#,0.00;"R$"#,0.00
+			displayFolder: 1.5 Estoque Quimicos
+			lineageTag: 971794b0-d982-426c-8698-bb7873731907
+
+			annotation PBI_FormatHint = {"currencyCulture":"es-BR"}
+
+		measure 'Valor Total Vencendo' = ```
+				
+				COALESCE(
+				    CALCULATE(
+				        [Valor Estoque Atual],
+				        'fEstoqueGeral'[STATUS] = "VENCENDO"
+				    ),
+				    0.00
+				)
+				
+				```
+			formatString: "R$"#,0.00;-"R$"#,0.00;"R$"#,0.00
+			displayFolder: 1.5 Estoque Quimicos
+			lineageTag: cf2eb797-99dd-4ffc-91e8-3a55ca1599a1
+
+			annotation PBI_FormatHint = {"currencyCulture":"es-BR"}
+
+		measure 'Perc. Vencido' = ```
+				
+				DIVIDE(
+				    [Valor Total Vencido], 
+				    [Valor Estoque Atual], 
+				    0
+				) 
+				```
+			formatString: 0.00%;-0.00%;0.00%
+			displayFolder: 1.5 Estoque Quimicos
+			lineageTag: 82f43001-4c8a-42f4-aa2a-760c47242ee8
+
+		measure 'Perc. Vencendo' = ```
+				
+				DIVIDE(
+				    [Valor Total Vencendo], 
+				    [Valor Estoque Atual], 
+				    0
+				) 
+				```
+			formatString: 0.00%;-0.00%;0.00%
+			displayFolder: 1.5 Estoque Quimicos
+			lineageTag: 51ff9896-24ee-418b-bde7-cfbfdbd7da9c
+
+		measure 'Valor Total A Vencer' =
+				
+				COALESCE(
+				    CALCULATE(
+				        [Valor Estoque Atual],
+				        'fEstoqueGeral'[STATUS] = "A VENCER"
+				    ),
+				    0.00
+				)
+			formatString: "R$"#,0.00;-"R$"#,0.00;"R$"#,0.00
+			displayFolder: 1.5 Estoque Quimicos
+			lineageTag: 6ba96d4d-fe0c-4568-9fd5-1fd7f3d84474
+
+			annotation PBI_FormatHint = {"currencyCulture":"es-BR"}
+
+		measure '2.1 Qtd Vencidos' =
+				
+				COALESCE(
+				    CALCULATE(
+				        SUM(fEstoqueGeral[ESTOQUE]),
+				        'fEstoqueGeral'[STATUS] = "VENCIDO"
+				    ),
+				    0.00
+				)
+			formatString: #,0.00
+			displayFolder: 1.5 Estoque Quimicos
+			lineageTag: 67c2d71d-ab5d-45e9-88cb-aa5af9259a62
+
+		measure 'Perc. A Vencer' = ```
+				
+				DIVIDE(
+				    [Valor Total A Vencer], 
+				    [Valor Estoque Atual], 
+				    0
+				) 
+				```
+			formatString: 0.00%;-0.00%;0.00%
+			displayFolder: 1.5 Estoque Quimicos
+			lineageTag: 1ff8b180-049f-407d-8e77-43323a7232f7
+
+		measure '2.1 Qtd Vencendo' = ```
+				
+				COALESCE(
+				    CALCULATE(
+				        SUM(fEstoqueGeral[ESTOQUE]),
+				        'fEstoqueGeral'[STATUS] = "VENCENDO"
+				    ),
+				    0.00
+				)
+				
+				```
+			formatString: #,0.00
+			displayFolder: 1.5 Estoque Quimicos
+			lineageTag: 85cef421-50db-4b97-906f-ffb510a1138a
+
+		measure '2.1 Qtd A Vencer' = ```
+				
+				COALESCE(
+				    CALCULATE(
+				        SUM(fEstoqueGeral[ESTOQUE]),
+				        fEstoqueGeral[STATUS] = "A VENCER"
+				    ),
+				    0.00
+				)
+				
+				```
+			formatString: #,0.00
+			displayFolder: 1.5 Estoque Quimicos
+			lineageTag: 83caac33-d2c1-4a63-afc2-865d939730fb
+
+		measure 'Qtd O.S' =
+				
+				CALCULATE(
+				        DISTINCTCOUNT(fGaSRV[COD_OS])
+				)
+			formatString: #,0
+			lineageTag: f9209ce9-c63f-4c22-89fb-60d4f56c5176
+
+			annotation PBI_FormatHint = {"isDecimal":true}
+
+		measure 'Qtd O.S Aberta' =
+				
+				COALESCE(
+				    CALCULATE(
+				        DISTINCTCOUNT(fGaSRV[COD_OS]),
+				        fGaSRV[LAN_STATUS] = "ABERTO"
+				    ),
+				    0.00
+				)
+			formatString: #,0.00
+			lineageTag: 2d1816ac-3ccc-44b1-a275-a5314a000624
+
+		measure '1.1 Eixo y Maximo Total Aplicado' =
+				
+				
+				VAR vTabela = ALLSELECTED(dCalendario[MesNomeAbrev], dCalendario[MesNum])
+				
+				VAR vMaiorAtual =
+				        MAXX(vTabela, [Total Aplicado])
+				
+				
+				VAR vDeslocamento = 1.3
+				
+				RETURN
+				    vMaiorAtual * vDeslocamento
+			lineageTag: be4e8e50-6a37-4861-a101-dbafd5eaa321
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		measure '1.1 Eixo y Maximo Estoque Total Status' =
+				
+				
+				VAR vTabela = ALLSELECTED(fPosicaoEstoque[Status Produto])
+				
+				VAR vMaiorAtual =
+				        MAXX(vTabela, [1 Total Estoque])
+				
+				
+				VAR vDeslocamento = 1.3
+				
+				RETURN
+				    vMaiorAtual * vDeslocamento
+			lineageTag: 443722bf-4900-40ac-9ab4-5627fce58904
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		measure 'Qtd O.S Texto Auxiliar' = ```
+				
+				
+				VAR vQuantidadeOS = [Qtd O.S]
+				
+				VAR vQuantidadeOSFormatado = FORMAT(vQuantidadeOS, "###,###")
+				
+				RETURN
+				    "Qtd: " & vQuantidadeOSFormatado
+				
+				```
+			lineageTag: e025e493-7e22-4730-a5d6-e15976473c0d
+
+		measure 'Estoque Cor' =
+				
+				VAR vDias = SELECTEDVALUE(fEstoquesAtual[DIAS])
+				RETURN
+				    SWITCH(
+				        TRUE(),
+				        vDias >= 120, "#70B0A7",
+				        vDias >= 0 && vDias < 120, "#E3B100",
+				        "#E68F96"
+				    )
+			lineageTag: a34cfb87-7f09-4379-84fd-e99e9ae1c912
+
+		measure 'Status Único' =
+				
+				SELECTEDVALUE(fEstoquesAtual[STATUS])
+			lineageTag: cc1ae64c-3afe-472d-b5ce-4a28aef51518
+
+		measure 'Percentual Por Status' =
+				
+				VAR TotalEstoque = COUNTROWS(fEstoquesAtual)
+				VAR StatusAtual = CALCULATE(COUNTROWS(fEstoquesAtual), fEstoquesAtual[Status] = SELECTEDVALUE(fEstoquesAtual[Status]))
+				RETURN
+				    DIVIDE(StatusAtual, TotalEstoque, 0)
+			lineageTag: 01b849c9-697b-4505-8651-234488f3e39d
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		measure 'Local de Armazenamento' =
+				
+				SELECTEDVALUE(fEstoquesAtual[ARMAZEM])
+			lineageTag: 0bb5c357-668f-4952-8ed1-da209922c104
+
+		measure 'Status Dias' = ```
+				
+				VAR vDias = SELECTEDVALUE(fEstoquesAtual[Dias])
+				RETURN
+				    SWITCH(
+				        TRUE(),
+				        vDias < 0, "Em " & vDias & " dias",
+				        vDias >= 0 && vDias < 120, "Em " & vDias & " dias",
+				        vDias >= 120, "Em " & vDias & " dias",
+				        "Sem Valor"
+				    )
+				
+				```
+			lineageTag: 6f9ca012-3741-4fe4-9840-dcdbbda54675
+
+		measure 'Mes Selecionado Status' = ```
+				
+				VAR vMesSelecionado = SELECTEDVALUE(dCalendario[MesNome], "Todos")
+				
+				RETURN
+				    "Status de Produtos - " &
+				    IF(
+				        vMesSelecionado = "Todos",
+				        "Todos os Mêses",
+				        "Mês de " & vMesSelecionado
+				    )
+				
+				```
+			lineageTag: 1171c00a-9ca4-4927-8318-50c0dba3d5db
+
+		measure 'Tipo Selecionado' =
+				
+				VAR vTipoLocal = SELECTEDVALUE(fEstoqueGeral[TIPO LOCAL], "Todos")
+				
+				VAR vTipoInsumo = SELECTEDVALUE(fEstoqueGeral[TIPO PRODUTO], "Todos")
+				
+				RETURN
+				    "Por Local " & vTipoLocal & " e Insumos "& vTipoInsumo
+			lineageTag: afe87e30-c19e-49a1-be0d-3a812cf4fd47
+
+		measure 'Mes Selecionado 1' = ```
+				
+				VAR vMesSelecionado = SELECTEDVALUE(dCalendario[MesNome], "Todos")
+				
+				RETURN
+				    "Vencimentos de 0 a 30 Dias - " &
+				    IF(
+				        vMesSelecionado = "Todos",
+				        "Todos os Mêses",
+				        "Mês de " & vMesSelecionado
+				    )
+				
+				```
+			lineageTag: 063d94ce-3f29-4916-991c-fdddaee2a1bc
+
+		measure 'Tipo Selecionado Status' =
+				
+				VAR vTipoLocal = SELECTEDVALUE(fPosicaoEstoque[TIPO LOCAL], "Todos")
+				
+				VAR vGrupo = SELECTEDVALUE(fPosicaoEstoque[DESCRIÇÃO GRUPO], "Todos")
+				
+				RETURN
+				     "Estoque Mês a Mês e por Local " & vTipoLocal & " e Grupo " & vGrupo
+			lineageTag: d83c9c8c-85f3-462b-8601-3e1916034b7e
+
+		measure 'Mes Selecionado Listagem' = ```
+				
+				VAR vMesSelecionado = SELECTEDVALUE(dCalendario[MesNome], "Todos")
+				
+				RETURN
+				    "Por Local e Stauts  - Estoque do Mês " & vMesSelecionado
+				
+				```
+			lineageTag: 5398e5c3-340f-4dc7-b8c7-d19b069d06a0
+
+		measure 'Tempo de Estoque' = ```
+				
+				
+				VAR vTempo = SELECTEDVALUE(fEstoquesAtual[TEMPO DO ESTOQUE])
+				
+				RETURN
+				 
+				"há " & vTempo & " dias" 
+				
+				```
+			lineageTag: 21dc3d18-c621-4b48-bf8f-0089bade4216
+
+		measure 'Ultima Atualização' =
+				
+				VAR vAtualizaca = SELECTEDVALUE(fEstoquesAtual[Data Atualização])
+				
+				RETURN
+				    "Última Atualização: " & vAtualizaca
+			lineageTag: 440486ce-d926-432e-bd86-00d42fc7c8c3
+
+		measure '2.1 Qtd Total Estoque' = ```
+				
+				    SUM(fEstoqueGeral[ESTOQUE])
+				```
+			formatString: #,0.00
+			displayFolder: 1.5 Estoque Quimicos
+			lineageTag: 3fc1f898-406c-47f4-a6c1-de72125150db
+
+		measure '1 Total Estoque Formatado' = ```
+				
+				
+				VAR vTotalEstoque = [1 Total Estoque]
+				
+				VAR vTotalEstoqueFormatado =
+				            SWITCH(
+				                    TRUE(),
+				                        vTotalEstoque >= 1000000000, "R$ " & FORMAT(vTotalEstoque/ 1000000000, "#,0.00") & " BI",
+				                        vTotalEstoque >= 1000000, "R$ " & FORMAT(vTotalEstoque/ 1000000, "#,0.00") & " MI",
+				                        vTotalEstoque >= 1000, "R$ " & FORMAT(vTotalEstoque / 1000, "#,0.00") & " K",
+				                        "R$ " & FORMAT(vTotalEstoque, "#,0.00")
+				            )
+				RETURN
+				    IF(
+				    vTotalEstoque <> 0,
+				    vTotalEstoqueFormatado,
+				    BLANK()
+				)
+				
+				```
+			displayFolder: 1.0 Tempo
+			lineageTag: 6e111851-9f99-4dc2-b1a1-697ce95f7eb9
+
+		measure 'Tipo Selecionado Vencido A Vencer' =
+				
+				VAR vTipoLocal = SELECTEDVALUE(fPosicaoEstoque[TIPO LOCAL], "Todos")
+				
+				VAR vGrupo = SELECTEDVALUE(fPosicaoEstoque[DESCRIÇÃO GRUPO], "Todos")
+				
+				RETURN
+				     "Estoque Vencido e Vencendo Mês a Mês e por Local " & vTipoLocal & " e Grupo " & vGrupo
+			displayFolder: 1.0 Tempo
+			lineageTag: 67fb6aca-22c9-4376-91cc-815d67401147
+
+		measure 'Mes Selecionado 2' = ```
+				
+				VAR vMesSelecionado = SELECTEDVALUE(dCalendario[MesNome], "Todos")
+				
+				RETURN
+				    "Vencimentos de 31 a 60 Dias - " &
+				    IF(
+				        vMesSelecionado = "Todos",
+				        "Todos os Mêses",
+				        "Mês de " & vMesSelecionado
+				    )
+				
+				```
+			lineageTag: e8242439-7bbf-4294-8fe2-272e0bbd8178
+
+		measure 'Mes Selecionado 3' = ```
+				
+				VAR vMesSelecionado = SELECTEDVALUE(dCalendario[MesNome], "Todos")
+				
+				RETURN
+				    "Vencimentos de 61 a 90 Dias - " &
+				    IF(
+				        vMesSelecionado = "Todos",
+				        "Todos os Mêses",
+				        "Mês de " & vMesSelecionado
+				    )
+				
+				```
+			lineageTag: 4f0bdbd5-3dbb-41c8-a625-d59c5644e30d
+
+		measure 'Mes Selecionado 4' = ```
+				
+				VAR vMesSelecionado = SELECTEDVALUE(dCalendario[MesNome], "Todos")
+				
+				RETURN
+				    "Vencimentos de 91 a 120 Dias - " &
+				    IF(
+				        vMesSelecionado = "Todos",
+				        "Todos os Mêses",
+				        "Mês de " & vMesSelecionado
+				    )
+				
+				```
+			lineageTag: c2e923fd-c40e-47eb-af0e-4c034a7ac5ae
+
+		measure 'Total de Pedidos Pendentes' = ```
+				
+				    SUM(fPedidosPendentes[VLR_PENDENTE])
+				
+				```
+			displayFolder: 1.6 Pedidos
+			lineageTag: 59b20254-fa36-4858-990b-564cce647d8b
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		measure 'Quantidade de Pedido' = ```
+				
+				    COUNT(fPedidosPendentes[UNICO])
+				```
+			formatString: 0
+			displayFolder: 1.6 Pedidos
+			lineageTag: 71457154-0b25-4082-812e-0d70d615ba5b
+
+		measure 'Total de Pedidos' = ```
+				
+				SUMX(
+				    'fComprasTotal',
+				    'fComprasTotal'[VLR. UNITARIO] * 'fComprasTotal'[QUANTIDADE]
+				)
+				
+				```
+			displayFolder: 1.6 Pedidos
+			lineageTag: 3d17dcba-80cd-47f2-959c-88bcad5a50b7
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		measure 'Total de Pedidos Ano Anterior' = ```
+				
+				CALCULATE(
+				    [Total de Pedidos],
+				    SAMEPERIODLASTYEAR('dCalendario'[Data])
+				)
+				
+				```
+			displayFolder: 1.6 Pedidos
+			lineageTag: c77cba82-718c-475a-a270-93b0d8c57683
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		measure 'Variação % Ano Anterior' = ```
+				
+				DIVIDE(
+				    [Total de Pedidos] - [Total de Pedidos Ano Anterior],
+				    [Total de Pedidos Ano Anterior],
+				    0
+				)
+				
+				```
+			formatString: 0.00%;-0.00%;0.00%
+			displayFolder: 1.6 Pedidos
+			lineageTag: c1980b2c-69d3-4854-ac7f-430494c18b6a
+
+		measure 'Total Permitido' = SUM(fProgramacao_tenico[TOTAL_PERMITIDO])
+			formatString: #,0.00
+			lineageTag: e0cb4729-ab07-4132-8c35-878261cb3231
+
+		measure 'Total Adicional' = SUM(fProgramacao_tenico[QTDE_ADICIONAL])
+			formatString: #,0.00
+			lineageTag: c4002baa-ad9e-4f3b-b883-218ebf4c3225
+
+		measure 'Total Em O.S' = SUM(fProgramacao_tenico[QTDE_EMOS])
+			formatString: #,0.00
+			lineageTag: 08596a50-cf4c-4829-ad7f-43ec22d50aef
+
+		measure 'Saldo Restante' = SUM(fProgramacao_tenico[SALDO])
+			formatString: #,0.00
+			lineageTag: fc33c4fb-5033-4b7b-8819-033fe2040f71
+
+		measure '% Executado' = ```
+				
+				DIVIDE(
+				    [Total Permitido] - [Saldo Restante],
+				    [Total Permitido],
+				    0
+				)
+				
+				```
+			formatString: 0.00%;-0.00%;0.00%
+			lineageTag: c2d36560-e72b-441a-9ec7-396044fa8a19
+
+		measure QuantidadeEntreguePorProduto =
+				
+				CALCULATE(
+				    SUM(fEntrega[QuantidadeEntregue]),
+				    TREATAS(VALUES(fProgramacaoItens[Produto]), fEntrega[Produto])
+				)
+			lineageTag: 8dd44ec7-6c27-438b-b314-b9c4e39c82b4
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		measure QuantidadeProgramadoItens = ```
+				
+				CALCULATE(
+				  SUM(fProgramacaoItens[QuantidadeProgramado]),
+				   TREATAS(VALUES(fProgramacao[IdProgramacao ]), fProgramacaoItens[IdProgramacao])
+				)
+				
+				
+				```
+			lineageTag: ee3066f3-0f30-442e-917b-2360c9d4635f
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		measure 'Eixo y Maximo Total Programado' =
+				
+				
+				VAR vTabela = ALLSELECTED(fProgramacao[Cultura])
+				
+				VAR vMaiorAtual =
+				        MAXX(vTabela, [QuantidadeProgramadoItens])
+				
+				
+				VAR vDeslocamento = 1.5
+				
+				RETURN
+				    vMaiorAtual * vDeslocamento
+			lineageTag: 0e6d65ba-d3a9-4985-91ec-20ecc05ea0c0
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		measure 'Eixo y Maximo Total Programado Operacao' =
+				
+				
+				VAR vTabela = ALLSELECTED(fProgramacao[TipoProgramcao])
+				
+				VAR vMaiorAtual =
+				        MAXX(vTabela, [QuantidadeProgramadoItens])
+				
+				
+				VAR vDeslocamento = 1.5
+				
+				RETURN
+				    vMaiorAtual * vDeslocamento
+			lineageTag: f90a6916-8f89-41d0-8ccc-4dccb1d9dbac
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		measure 'Concatenado Programado' = ```
+				
+				 VAR vQuantidadeItens = [QuantidadeProgramadoItens]
+				
+				 RETURN
+				     FORMAT(vQuantidadeItens, "#,##") & " Ton"
+				```
+			lineageTag: 08f8672b-9016-4da5-af0f-eee442cbb870
+
+		measure DebugContexto =
+				
+				IF(
+				    ISFILTERED(fProgramacao[IdProgramacao ]),
+				    "Está filtrado por ID específico",
+				    "Contexto geral (total)"
+				)
+			lineageTag: 4b4b8da6-384f-4257-91a0-27a8a343d25d
+
+		measure 'Concatenado QtdEntregue' = ```
+				
+				 VAR vQuantidadeItens = [QuantidadeEntreguePorProduto]
+				
+				 RETURN
+				     FORMAT(vQuantidadeItens, "#,##") & " Ton"
+				```
+			lineageTag: 5fe7118b-cb6d-41ba-9c6f-bddf9ba754b8
+
+		measure '2.1 Qtd Estoque' =
+				
+				COALESCE(
+				    CALCULATE(
+				        SUM(fEstoqueGeral[ESTOQUE]),
+				        KEEPFILTERS(VALUES(fEstoqueGeral[PRODUTO]))
+				    ),
+				    0
+				)
+			displayFolder: 1.5 Estoque Quimicos
+			lineageTag: d79d4975-acf3-44af-8952-d1ac7b2b4858
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		measure '2.1 Total Estoque Geral' = ```
+				
+				              SUMX( fEstoqueGeral,
+				                        fEstoqueGeral[CUSTO UNITARIO AJUSTADO] * fEstoqueGeral[ESTOQUE AJUSTADO]
+				                  )
+				    
+				```
+			displayFolder: 1.5 Estoque Quimicos
+			lineageTag: 9fb2a67b-1f22-496f-869e-43a9edce45d6
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		measure 'Ultima Atualização Novo' =
+				
+				VAR vAtualizaca = SELECTEDVALUE(fEstoquesAtual[Data Atualização])
+				
+				RETURN
+				   // "Dados Até:" & UNICHAR(10) &  Quebra Linha
+				   "Dados Atualizados Até: " &  vAtualizaca & " |"
+			lineageTag: 3273f8e6-9c38-4e31-8a50-0df3cddfc381
+
+		measure 'Status Quimicos' =
+				
+				SWITCH(
+				   SELECTEDVALUE(fEstoqueGeral[STATUS]),
+				   "VENCIDO", "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjUiIGhlaWdodD0iNTAiIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCAzNjUgNTAiPjxyZWN0IHdpZHRoPSIzNjQiIGhlaWdodD0iNDkiIHg9Ii41IiB5PSIuNSIgZmlsbD0iI0Y0QzJDMiIgZmlsbC1vcGFjaXR5PSIuNjIiIHN0cm9rZT0iI0ZGMEIwQiIgcng9IjEyLjUiLz48cGF0aCBmaWxsPSIjRkYxMDEwIiBkPSJNMTQ1LjI0NiAxOC4xOTUgMTM5LjIxMSAzNWgtMy4xMTdsLTUuOTMtMTYuODA1aDMuMDQ3bDQuMTQ4IDEyLjc1Yy4xMzMuNDA3LjIzNS44OC4zMDUgMS40MThoLjA0N2E3LjQ5IDcuNDkgMCAwIDEgLjM0LTEuNDQxbDQuMjQyLTEyLjcyN2gyLjk1M1ptMTAuNTM1IDExLjU0M2gtOC4xNzljLjAzMSAxLjExLjM3MSAxLjk2NSAxLjAxOSAyLjU2Ny42NTYuNjAxIDEuNTU1LjkwMiAyLjY5NS45MDIgMS4yODIgMCAyLjQ1Ny0uMzgzIDMuNTI4LTEuMTQ4djIuMTkxYy0xLjA5NC42ODgtMi41MzkgMS4wMzEtNC4zMzYgMS4wMzEtMS43NjYgMC0zLjE1My0uNTQzLTQuMTYtMS42MjktMS0xLjA5My0xLjUtMi42MjktMS41LTQuNjA1IDAtMS44NjcuNTUtMy4zODcgMS42NTItNC41NTkgMS4xMDktMS4xOCAyLjQ4NC0xLjc3IDQuMTI1LTEuNzdzMi45MS41MjggMy44MDkgMS41ODNjLjg5OCAxLjA1NSAxLjM0NyAyLjUyIDEuMzQ3IDQuMzk0djEuMDQzWm0tMi42MjUtMS45MjJjLS4wMDgtLjk3Ni0uMjM4LTEuNzM0LS42OTEtMi4yNzMtLjQ1My0uNTQ3LTEuMDc4LS44Mi0xLjg3NS0uODItLjc4MSAwLTEuNDQ1LjI4NS0xLjk5Mi44NTUtLjUzOS41Ny0uODcxIDEuMzE3LS45OTYgMi4yMzhoNS41NTRaTTE2OS4wNTkgMzVoLTIuNzE5di02Ljc2MmMwLTIuMjQyLS43OTMtMy4zNjMtMi4zNzktMy4zNjMtLjgyOCAwLTEuNTEyLjMxMy0yLjA1MS45MzgtLjUzOS42MTctLjgwOCAxLjM5OC0uODA4IDIuMzQzVjM1aC0yLjczMVYyM2gyLjczMXYxLjk5MmguMDQ2Yy44OTktMS41MTUgMi4xOTYtMi4yNzMgMy44OTEtMi4yNzMgMS4zMDUgMCAyLjMwMS40MjUgMi45ODggMS4yNzcuNjg4Ljg0NCAxLjAzMiAyLjA2NyAxLjAzMiAzLjY2OFYzNVptMTEuOTE4LS41NWMtLjk2MS41NTQtMi4wOTguODMxLTMuNDExLjgzMS0xLjc4MSAwLTMuMjE4LS41NTQtNC4zMTItMS42NjQtMS4wOTQtMS4xMTctMS42NDEtMi41NjItMS42NDEtNC4zMzYgMC0xLjk3Ni41ODYtMy41NjIgMS43NTgtNC43NTggMS4xOC0xLjIwMyAyLjc1NC0xLjgwNCA0LjcyMy0xLjgwNCAxLjA5NCAwIDIuMDU4LjE5MSAyLjg5NC41NzR2Mi41MzFjLS44MzYtLjYyNS0xLjcyNi0uOTM3LTIuNjcyLS45MzctMS4xNDggMC0yLjA4OS4zOS0yLjgyNCAxLjE3Mi0uNzM0Ljc3My0xLjEwMSAxLjc4OS0xLjEwMSAzLjA0NiAwIDEuMjQzLjM0MyAyLjIyMyAxLjAzMSAyLjk0Mi42OTUuNzE5IDEuNjI1IDEuMDc4IDIuNzg5IDEuMDc4Ljk3NyAwIDEuODk4LS4zNDggMi43NjYtMS4wNDN2Mi4zNjdabTQuMDc4LTEzLjk3Yy0uNDQ2IDAtLjgyOC0uMTQ0LTEuMTQ5LS40MzNhMS40MzYgMS40MzYgMCAwIDEtLjQ2OC0xLjEwMmMwLS40NDUuMTU2LS44MTYuNDY4LTEuMTEzYTEuNjMzIDEuNjMzIDAgMCAxIDEuMTQ5LS40NDVjLjQ2MSAwIC44NTEuMTQ4IDEuMTcyLjQ0NS4zMi4yOTcuNDguNjY4LjQ4IDEuMTEzIDAgLjQyMi0uMTYuNzg1LS40OCAxLjA5YTEuNjYyIDEuNjYyIDAgMCAxLTEuMTcyLjQ0NVpNMTg2LjQwMiAzNWgtMi43MThWMjNoMi43MTh2MTJabTE0LjQ3MyAwaC0yLjcxOXYtMi4wNGgtLjA0N2MtLjg3NSAxLjU0OC0yLjIyMiAyLjMyMS00LjA0MyAyLjMyMS0xLjQ3NiAwLTIuNjYtLjUzNS0zLjU1LTEuNjA1LS44ODMtMS4wNzgtMS4zMjUtMi41NDMtMS4zMjUtNC4zOTUgMC0xLjk4NC40ODktMy41NzQgMS40NjUtNC43Ny45ODUtMS4xOTUgMi4yOTMtMS43OTIgMy45MjYtMS43OTIgMS42MTcgMCAyLjc5My42NDggMy41MjcgMS45NDVoLjA0N3YtNy40M2gyLjcxOVYzNVptLTIuNjg0LTUuNDg0di0xLjU3YzAtLjg1Mi0uMjc3LTEuNTc1LS44MzItMi4xNjktLjU1NC0uNTkzLTEuMjYxLS44OS0yLjEyMS0uODktMS4wMTUgMC0xLjgxNi4zNzktMi40MDIgMS4xMzYtLjU3OC43NTgtLjg2NyAxLjgwOS0uODY3IDMuMTUzIDAgMS4yMTkuMjc3IDIuMTgzLjgzMiAyLjg5NC41NjIuNzAzIDEuMzE2IDEuMDU1IDIuMjYxIDEuMDU1LjkzIDAgMS42ODQtLjM0IDIuMjYyLTEuMDIuNTc4LS42ODcuODY3LTEuNTUuODY3LTIuNTlabTExLjU1NSA1Ljc2NWMtMS44NTEgMC0zLjMzMi0uNTU4LTQuNDQxLTEuNjc1LTEuMTAyLTEuMTI2LTEuNjUzLTIuNjE0LTEuNjUzLTQuNDY1IDAtMi4wMTYuNTc1LTMuNTkgMS43MjMtNC43MjMgMS4xNTYtMS4xMzMgMi43MTEtMS43IDQuNjY0LTEuNyAxLjg3NSAwIDMuMzM2LjU1MiA0LjM4MyAxLjY1MyAxLjA0NyAxLjEwMiAxLjU3IDIuNjI5IDEuNTcgNC41ODIgMCAxLjkxNC0uNTY2IDMuNDUtMS42OTkgNC42MDYtMS4xMjUgMS4xNDgtMi42NDEgMS43MjItNC41NDcgMS43MjJabS4xMjktMTAuMzk0Yy0xLjA2MyAwLTEuOTAyLjM3LTIuNTIgMS4xMTMtLjYxNy43NDItLjkyNSAxLjc2Ni0uOTI1IDMuMDcgMCAxLjI1OC4zMTIgMi4yNS45MzcgMi45NzcuNjI1LjcxOSAxLjQ2MSAxLjA3OCAyLjUwOCAxLjA3OCAxLjA3IDAgMS44OTEtLjM1NSAyLjQ2MS0xLjA2Ni41NzgtLjcxMS44NjctMS43MjMuODY3LTMuMDM2IDAtMS4zMi0uMjg5LTIuMzQtLjg2Ny0zLjA1OC0uNTctLjcxOS0xLjM5MS0xLjA3OC0yLjQ2MS0xLjA3OFoiLz48L3N2Zz4=",
+				   "VENCENDO", "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjUiIGhlaWdodD0iNTAiIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCAzNjUgNTAiPjxyZWN0IHdpZHRoPSIzNjQiIGhlaWdodD0iNDkiIHg9Ii41IiB5PSIuNSIgZmlsbD0iI0ZGRjZENyIgc3Ryb2tlPSIjRjhDNDBEIiByeD0iMTIuNSIvPjxwYXRoIGZpbGw9IiM5Nzc2MDAiIGQ9Ik0xMzMuMjQ2IDE4LjE5NSAxMjcuMjExIDM1aC0zLjExN2wtNS45My0xNi44MDVoMy4wNDdsNC4xNDggMTIuNzVjLjEzMy40MDcuMjM1Ljg4LjMwNSAxLjQxOGguMDQ3YTcuNDkgNy40OSAwIDAgMSAuMzQtMS40NDFsNC4yNDItMTIuNzI3aDIuOTUzWm0xMC41MzUgMTEuNTQzaC04LjE3OWMuMDMxIDEuMTEuMzcxIDEuOTY1IDEuMDE5IDIuNTY3LjY1Ni42MDEgMS41NTUuOTAyIDIuNjk1LjkwMiAxLjI4MiAwIDIuNDU3LS4zODMgMy41MjgtMS4xNDh2Mi4xOTFjLTEuMDk0LjY4OC0yLjUzOSAxLjAzMS00LjMzNiAxLjAzMS0xLjc2NiAwLTMuMTUzLS41NDMtNC4xNi0xLjYyOS0xLTEuMDkzLTEuNS0yLjYyOS0xLjUtNC42MDUgMC0xLjg2Ny41NS0zLjM4NyAxLjY1Mi00LjU1OSAxLjEwOS0xLjE4IDIuNDg0LTEuNzcgNC4xMjUtMS43N3MyLjkxLjUyOCAzLjgwOSAxLjU4M2MuODk4IDEuMDU1IDEuMzQ3IDIuNTIgMS4zNDcgNC4zOTR2MS4wNDNabS0yLjYyNS0xLjkyMmMtLjAwOC0uOTc2LS4yMzgtMS43MzQtLjY5MS0yLjI3My0uNDUzLS41NDctMS4wNzgtLjgyLTEuODc1LS44Mi0uNzgxIDAtMS40NDUuMjg1LTEuOTkyLjg1NS0uNTM5LjU3LS44NzEgMS4zMTctLjk5NiAyLjIzOGg1LjU1NFpNMTU3LjA1OSAzNWgtMi43MTl2LTYuNzYyYzAtMi4yNDItLjc5My0zLjM2My0yLjM3OS0zLjM2My0uODI4IDAtMS41MTIuMzEzLTIuMDUxLjkzOC0uNTM5LjYxNy0uODA4IDEuMzk4LS44MDggMi4zNDNWMzVoLTIuNzMxVjIzaDIuNzMxdjEuOTkyaC4wNDZjLjg5OS0xLjUxNSAyLjE5Ni0yLjI3MyAzLjg5MS0yLjI3MyAxLjMwNSAwIDIuMzAxLjQyNSAyLjk4OCAxLjI3Ny42ODguODQ0IDEuMDMyIDIuMDY3IDEuMDMyIDMuNjY4VjM1Wm0xMS45MTgtLjU1Yy0uOTYxLjU1NC0yLjA5OC44MzEtMy40MTEuODMxLTEuNzgxIDAtMy4yMTgtLjU1NC00LjMxMi0xLjY2NC0xLjA5NC0xLjExNy0xLjY0MS0yLjU2Mi0xLjY0MS00LjMzNiAwLTEuOTc2LjU4Ni0zLjU2MiAxLjc1OC00Ljc1OCAxLjE4LTEuMjAzIDIuNzU0LTEuODA0IDQuNzIzLTEuODA0IDEuMDk0IDAgMi4wNTguMTkxIDIuODk0LjU3NHYyLjUzMWMtLjgzNi0uNjI1LTEuNzI2LS45MzctMi42NzItLjkzNy0xLjE0OCAwLTIuMDg5LjM5LTIuODI0IDEuMTcyLS43MzQuNzczLTEuMTAxIDEuNzg5LTEuMTAxIDMuMDQ2IDAgMS4yNDMuMzQzIDIuMjIzIDEuMDMxIDIuOTQyLjY5NS43MTkgMS42MjUgMS4wNzggMi43ODkgMS4wNzguOTc3IDAgMS44OTgtLjM0OCAyLjc2Ni0xLjA0M3YyLjM2N1ptMTIuODY3LTQuNzEyaC04LjE4Yy4wMzEgMS4xMS4zNzEgMS45NjUgMS4wMiAyLjU2Ny42NTYuNjAxIDEuNTU0LjkwMiAyLjY5NS45MDIgMS4yODEgMCAyLjQ1Ny0uMzgzIDMuNTI3LTEuMTQ4djIuMTkxYy0xLjA5NC42ODgtMi41MzkgMS4wMzEtNC4zMzYgMS4wMzEtMS43NjUgMC0zLjE1Mi0uNTQzLTQuMTYtMS42MjktMS0xLjA5My0xLjUtMi42MjktMS41LTQuNjA1IDAtMS44NjcuNTUxLTMuMzg3IDEuNjUyLTQuNTU5IDEuMTEtMS4xOCAyLjQ4NS0xLjc3IDQuMTI2LTEuNzcgMS42NCAwIDIuOTEuNTI4IDMuODA4IDEuNTgzLjg5OSAxLjA1NSAxLjM0OCAyLjUyIDEuMzQ4IDQuMzk0djEuMDQzWm0tMi42MjUtMS45MjJjLS4wMDgtLjk3Ni0uMjM5LTEuNzM0LS42OTItMi4yNzMtLjQ1My0uNTQ3LTEuMDc4LS44Mi0xLjg3NS0uODItLjc4MSAwLTEuNDQ1LjI4NS0xLjk5Mi44NTUtLjUzOS41Ny0uODcxIDEuMzE3LS45OTYgMi4yMzhoNS41NTVaTTE5NS4xMjEgMzVoLTIuNzE5di02Ljc2MmMwLTIuMjQyLS43OTMtMy4zNjMtMi4zNzktMy4zNjMtLjgyOCAwLTEuNTExLjMxMy0yLjA1LjkzOC0uNTM5LjYxNy0uODA5IDEuMzk4LS44MDkgMi4zNDNWMzVoLTIuNzNWMjNoMi43M3YxLjk5MmguMDQ3Yy44OTgtMS41MTUgMi4xOTUtMi4yNzMgMy44OTEtMi4yNzMgMS4zMDQgMCAyLjMuNDI1IDIuOTg4IDEuMjc3LjY4Ny44NDQgMS4wMzEgMi4wNjcgMS4wMzEgMy42NjhWMzVabTE0LjIzOCAwaC0yLjcxOHYtMi4wNGgtLjA0N2MtLjg3NSAxLjU0OC0yLjIyMyAyLjMyMS00LjA0MyAyLjMyMS0xLjQ3NyAwLTIuNjYtLjUzNS0zLjU1MS0xLjYwNS0uODgzLTEuMDc4LTEuMzI0LTIuNTQzLTEuMzI0LTQuMzk1IDAtMS45ODQuNDg4LTMuNTc0IDEuNDY1LTQuNzcuOTg0LTEuMTk1IDIuMjkzLTEuNzkyIDMuOTI1LTEuNzkyIDEuNjE4IDAgMi43OTMuNjQ4IDMuNTI4IDEuOTQ1aC4wNDd2LTcuNDNoMi43MThWMzVabS0yLjY4My01LjQ4NHYtMS41N2MwLS44NTItLjI3OC0xLjU3NS0uODMyLTIuMTY5LS41NTUtLjU5My0xLjI2Mi0uODktMi4xMjEtLjg5LTEuMDE2IDAtMS44MTcuMzc5LTIuNDAzIDEuMTM2LS41NzguNzU4LS44NjcgMS44MDktLjg2NyAzLjE1MyAwIDEuMjE5LjI3NyAyLjE4My44MzIgMi44OTQuNTYzLjcwMyAxLjMxNyAxLjA1NSAyLjI2MiAxLjA1NS45MyAwIDEuNjgzLS4zNCAyLjI2Mi0xLjAyLjU3OC0uNjg3Ljg2Ny0xLjU1Ljg2Ny0yLjU5Wm0xMS41NTQgNS43NjVjLTEuODUxIDAtMy4zMzItLjU1OC00LjQ0MS0xLjY3NS0xLjEwMS0xLjEyNi0xLjY1Mi0yLjYxNC0xLjY1Mi00LjQ2NSAwLTIuMDE2LjU3NC0zLjU5IDEuNzIyLTQuNzIzIDEuMTU3LTEuMTMzIDIuNzExLTEuNyA0LjY2NC0xLjcgMS44NzUgMCAzLjMzNi41NTIgNC4zODMgMS42NTMgMS4wNDcgMS4xMDIgMS41NzEgMi42MjkgMS41NzEgNC41ODIgMCAxLjkxNC0uNTY3IDMuNDUtMS43IDQuNjA2LTEuMTI1IDEuMTQ4LTIuNjQgMS43MjItNC41NDcgMS43MjJabS4xMjktMTAuMzk0Yy0xLjA2MiAwLTEuOTAyLjM3LTIuNTE5IDEuMTEzLS42MTcuNzQyLS45MjYgMS43NjYtLjkyNiAzLjA3IDAgMS4yNTguMzEzIDIuMjUuOTM4IDIuOTc3LjYyNS43MTkgMS40NiAxLjA3OCAyLjUwNyAxLjA3OCAxLjA3MSAwIDEuODkxLS4zNTUgMi40NjEtMS4wNjYuNTc4LS43MTEuODY4LTEuNzIzLjg2OC0zLjAzNiAwLTEuMzItLjI5LTIuMzQtLjg2OC0zLjA1OC0uNTctLjcxOS0xLjM5LTEuMDc4LTIuNDYxLTEuMDc4WiIvPjwvc3ZnPg==",
+				   "A VENCER", "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjUiIGhlaWdodD0iNTAiIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCAzNjUgNTAiPjxyZWN0IHdpZHRoPSIzNjQiIGhlaWdodD0iNDkiIHg9Ii41IiB5PSIuNSIgZmlsbD0iI0I5RTVFMCIgc3Ryb2tlPSIjMDA2RTYxIiByeD0iMTIuNSIvPjxwYXRoIGZpbGw9IiMwMDZFNjEiIGQ9Ik0xMzQuODc5IDMyaC0zLjA1OWwtMS41MTEtNC4yNzdoLTYuNjFMMTIyLjI0NiAzMmgtMy4wNDdsNi4yOTMtMTYuODA1aDMuMTQxTDEzNC44NzkgMzJabS01LjMwOS02LjU1LTIuMzMyLTYuNzA0Yy0uMDctLjIxOS0uMTQ0LS41Ny0uMjIyLTEuMDU1aC0uMDQ3YTYuOTI0IDYuOTI0IDAgMCAxLS4yMzUgMS4wNTVsLTIuMzA4IDYuNzAzaDUuMTQ0Wm0yNy40MS0xMC4yNTVMMTUwLjk0NSAzMmgtMy4xMTdsLTUuOTMtMTYuODA1aDMuMDQ3bDQuMTQ5IDEyLjc1Yy4xMzMuNDA3LjIzNC44OC4zMDQgMS40MThoLjA0N2E3LjQ5IDcuNDkgMCAwIDEgLjM0LTEuNDQxbDQuMjQyLTEyLjcyN2gyLjk1M1ptMTAuNTM2IDExLjU0M2gtOC4xOGMuMDMxIDEuMTEuMzcxIDEuOTY1IDEuMDE5IDIuNTY3LjY1Ny42MDEgMS41NTUuOTAyIDIuNjk2LjkwMiAxLjI4MSAwIDIuNDU3LS4zODMgMy41MjctMS4xNDh2Mi4xOTFjLTEuMDk0LjY4OC0yLjUzOSAxLjAzMS00LjMzNiAxLjAzMS0xLjc2NSAwLTMuMTUyLS41NDMtNC4xNi0xLjYyOS0xLTEuMDkzLTEuNS0yLjYyOS0xLjUtNC42MDUgMC0xLjg2Ny41NTEtMy4zODcgMS42NTItNC41NTkgMS4xMS0xLjE4IDIuNDg1LTEuNzcgNC4xMjUtMS43NyAxLjY0MSAwIDIuOTExLjUyOCAzLjgwOSAxLjU4My44OTggMS4wNTUgMS4zNDggMi41MiAxLjM0OCA0LjM5NHYxLjA0M1ptLTIuNjI1LTEuOTIyYy0uMDA4LS45NzYtLjIzOS0xLjczNC0uNjkyLTIuMjczLS40NTMtLjU0Ny0xLjA3OC0uODItMS44NzUtLjgyLS43ODEgMC0xLjQ0NS4yODUtMS45OTIuODU1LS41MzkuNTctLjg3MSAxLjMxNy0uOTk2IDIuMjM4aDUuNTU1Wk0xODAuNzkzIDMyaC0yLjcxOXYtNi43NjJjMC0yLjI0Mi0uNzkzLTMuMzYzLTIuMzc5LTMuMzYzLS44MjggMC0xLjUxMS4zMTMtMi4wNS45MzgtLjU0LjYxNy0uODA5IDEuMzk4LS44MDkgMi4zNDNWMzJoLTIuNzMxVjIwaDIuNzMxdjEuOTkyaC4wNDdjLjg5OC0xLjUxNSAyLjE5NS0yLjI3MyAzLjg5LTIuMjczIDEuMzA1IDAgMi4zMDEuNDI1IDIuOTg5IDEuMjc3LjY4Ny44NDQgMS4wMzEgMi4wNjcgMS4wMzEgMy42NjhWMzJabTExLjkxOC0uNTVjLS45NjEuNTU0LTIuMDk4LjgzMS0zLjQxLjgzMS0xLjc4MSAwLTMuMjE5LS41NTQtNC4zMTMtMS42NjQtMS4wOTMtMS4xMTctMS42NC0yLjU2Mi0xLjY0LTQuMzM2IDAtMS45NzYuNTg2LTMuNTYyIDEuNzU3LTQuNzU4IDEuMTgtMS4yMDMgMi43NTQtMS44MDQgNC43MjMtMS44MDQgMS4wOTQgMCAyLjA1OS4xOTEgMi44OTUuNTc0djIuNTMxYy0uODM2LS42MjUtMS43MjctLjkzNy0yLjY3Mi0uOTM3LTEuMTQ5IDAtMi4wOS4zOS0yLjgyNCAxLjE3Mi0uNzM1Ljc3My0xLjEwMiAxLjc4OS0xLjEwMiAzLjA0NiAwIDEuMjQzLjM0NCAyLjIyMyAxLjAzMSAyLjk0Mi42OTYuNzE5IDEuNjI1IDEuMDc4IDIuNzg5IDEuMDc4Ljk3NyAwIDEuODk5LS4zNDggMi43NjYtMS4wNDN2Mi4zNjdabTEyLjg2Ny00LjcxMmgtOC4xOGMuMDMyIDEuMTEuMzcyIDEuOTY1IDEuMDIgMi41NjcuNjU2LjYwMSAxLjU1NS45MDIgMi42OTUuOTAyIDEuMjgyIDAgMi40NTctLjM4MyAzLjUyOC0xLjE0OHYyLjE5MWMtMS4wOTQuNjg4LTIuNTM5IDEuMDMxLTQuMzM2IDEuMDMxLTEuNzY2IDAtMy4xNTMtLjU0My00LjE2LTEuNjI5LTEtMS4wOTMtMS41LTIuNjI5LTEuNS00LjYwNSAwLTEuODY3LjU1LTMuMzg3IDEuNjUyLTQuNTU5IDEuMTA5LTEuMTggMi40ODQtMS43NyA0LjEyNS0xLjc3IDEuNjQgMCAyLjkxLjUyOCAzLjgwOCAxLjU4My44OTkgMS4wNTUgMS4zNDggMi41MiAxLjM0OCA0LjM5NHYxLjA0M1ptLTIuNjI1LTEuOTIyYy0uMDA4LS45NzYtLjIzOC0xLjczNC0uNjkxLTIuMjczLS40NTMtLjU0Ny0xLjA3OC0uODItMS44NzUtLjgyLS43ODIgMC0xLjQ0Ni4yODUtMS45OTIuODU1LS41NC41Ny0uODcyIDEuMzE3LS45OTcgMi4yMzhoNS41NTVabTEyLjE3Ni0yLjIyNmMtLjMyOC0uMjU4LS44MDEtLjM4Ny0xLjQxOC0uMzg3LS44MDUgMC0xLjQ3Ny4zNjMtMi4wMTYgMS4wOS0uNTM5LjcyNy0uODA4IDEuNzE1LS44MDggMi45NjVWMzJoLTIuNzE5VjIwaDIuNzE5djIuNDczaC4wNDdjLjI2NS0uODQ0LjY3MS0xLjUgMS4yMTgtMS45Ny41NTUtLjQ3NiAxLjE3Mi0uNzE0IDEuODUyLS43MTQuNDkyIDAgLjg2Ny4wNzQgMS4xMjUuMjIzdjIuNTc4WiIvPjwvc3ZnPg==",
+				   BLANK())
+			lineageTag: 94f206ce-5684-485e-9712-415e79f3a202
+
+		measure _Font_Size_10 =
+				
+				"10px"
+			displayFolder: 0.0 Styles Config\Fontes
+			lineageTag: e2c9afc2-e926-4d21-85b4-80b795ca5f77
+
+		measure _Font_Size_12 =
+				
+				"12px"
+			displayFolder: 0.0 Styles Config\Fontes
+			lineageTag: d15f5af6-e0d8-486b-8391-138298eafed3
+
+		measure _Font_Size_13 =
+				
+				"13px"
+			displayFolder: 0.0 Styles Config\Fontes
+			lineageTag: 00473d11-9cba-484d-8e46-88871fa28beb
+
+		measure _Font_Size_14 =
+				
+				"14px"
+			displayFolder: 0.0 Styles Config\Fontes
+			lineageTag: 5f2eef12-c0c4-4697-bfe3-1015a0194e8f
+
+		measure _Font_Size_9 =
+				
+				"9px"
+			displayFolder: 0.0 Styles Config\Fontes
+			lineageTag: 525854d1-0234-4f72-9301-c69eddfa85e2
+
+		measure _Font_Weight_Bold =
+				
+				"700"
+			displayFolder: 0.0 Styles Config\Fontes
+			lineageTag: 60c8e80d-9731-47da-b760-1cf20b6a97c0
+
+		measure _Font_Weight_Normal =
+				
+				"400"
+			displayFolder: 0.0 Styles Config\Fontes
+			lineageTag: 8c27c0e1-d063-4694-957d-b5331cc25e6a
+
+		measure _Font_Weight_Semi_Bold =
+				
+				"600"
+			displayFolder: 0.0 Styles Config\Fontes
+			lineageTag: bbfb26cb-ec0c-4429-bd70-64f8518d42ac
+
+		measure _Fonte_Padrao =
+				
+				"Segoe UI"
+			displayFolder: 0.0 Styles Config\Fontes
+			lineageTag: a8073d3d-e8f1-418b-a861-dca302eda241
+
+		measure _Cor_Amarela_Escura_Marrom =
+				
+				"#977600"
+				// Dourado Terroso → Para destaques sofisticados, elementos premium e toques elegantes, trazendo sensação de qualidade.
+			displayFolder: 0.0 Styles Config\Cores
+			lineageTag: 6c93fb36-b79a-47a1-bb79-4bb06d56bae4
+
+		measure _Cor_Amarela_Vibrante =
+				
+				"#F8C40D"
+				// Amarelo Vibrante → Excelente para chamar atenção sem ser agressivo, boa para ícones e avisos de alerta moderado.
+			displayFolder: 0.0 Styles Config\Cores
+			lineageTag: 2afafa1f-8725-4a0f-bd58-aba45614f086
+
+		measure _Cor_Amarelo_Pastel_Muito_Claro =
+				
+				"#FFF6D7"
+				// Amarelo Pastel Muito Claro → Cor de fundo suave, para destacar áreas sem sobrecarregar, proporcionando leveza visual.
+			displayFolder: 0.0 Styles Config\Cores
+			lineageTag: 2943ce7e-3a95-4a8c-b1af-136f2515102e
+
+		measure _Cor_Branco_Puro =
+				
+				"#FFFFFF"
+				// Branco Puro → Cor base essencial para textos e fundos, garantindo alto contraste e leitura clara.
+			displayFolder: 0.0 Styles Config\Cores
+			lineageTag: 90e8c57f-fee1-4eb7-96eb-4bf9f4bdf489
+
+		measure _Cor_Cinza_Claro_Medio =
+				
+				"#8D8888"
+				// Cinza Claro Suave → Fundo neutro claro para áreas extensas, mantendo o foco principal nas informações em destaque.
+			displayFolder: 0.0 Styles Config\Cores
+			lineageTag: 6347086b-aee8-4837-bc3c-42f8c0a597d6
+
+		measure _Cor_Cinza_Claro_Suave =
+				
+				"#E8EEEC"
+				// Cinza Claro Suave → Fundo neutro claro para áreas extensas, mantendo o foco principal nas informações em destaque.
+			displayFolder: 0.0 Styles Config\Cores
+			lineageTag: cac6dd84-864c-410b-9d72-06eee308d4b6
+
+		measure _Cor_Cinza_Medio_Neutro =
+				
+				"#A6A6A6"
+				// Cinza Médio Neutro → Cor neutra para textos secundários, bordas e elementos de interface que não devem se destacar demais.
+			displayFolder: 0.0 Styles Config\Cores
+			lineageTag: 1cdfb38a-883e-4408-a0ea-a11309540a90
+
+		measure _Cor_Preto_Cinza =
+				
+				"#3F3A3A"
+				// Cor Nova
+			displayFolder: 0.0 Styles Config\Cores
+			lineageTag: f65ef02d-91db-4f25-bb93-61d78cbd06c1
+
+		measure _Cor_Preto_Intenso =
+				
+				"#000000"
+				// Preto Intenso → Para textos principais e elementos que exigem alta legibilidade e contraste máximo.
+			displayFolder: 0.0 Styles Config\Cores
+			lineageTag: c3ba1150-e718-4e1b-b5d8-3157e05b861d
+
+		measure _Cor_Verde_Agua_Pastel =
+				
+				"#B9E5E0"
+				// Verde Água Pastel → Excelente para realces sutis, destaques menos agressivos e fundos neutros com toque de frescor.
+			displayFolder: 0.0 Styles Config\Cores
+			lineageTag: 5319b48a-593d-4501-87c4-9408e325df88
+
+		measure _Cor_Verde_Claro_Suave =
+				
+				"#9FDCE2"
+				// Azul Claro Suave → Cor de fundo ou elementos secundários, que transmite tranquilidade e suavidade, ideal para áreas grandes e calmas.
+			displayFolder: 0.0 Styles Config\Cores
+			lineageTag: e3559037-d0a3-4c0c-9e75-97baa7f0b244
+
+		measure _Cor_Verde_Esmeralda_Profundo =
+				
+				"#1B7A69"
+				// Verde Esmeralda Profundo → Cor principal para elementos de sucesso, confirmação e destaque forte. Boa para botões e indicadores positivos.
+			displayFolder: 0.0 Styles Config\Cores
+			lineageTag: 0d1a9bb4-0f27-4a43-bf57-7c119deacb01
+
+		measure _Cor_Verde_Floresta_Escuro =
+				
+				"#006E61"
+				// Verde Floresta Escuro → Tom rico e sóbrio para fundos, menus ou textos que precisem de elegância e legibilidade alta.
+			displayFolder: 0.0 Styles Config\Cores
+			lineageTag: 4e978be7-cb08-4e9a-91c0-3e742f68855e
+
+		measure _Cor_Verde_Vibrante =
+				
+				"#388E3C"
+				// Verde Vibrante → Para chamadas à ação (CTA), ícones e botões que devem chamar atenção com sensação de energia e crescimento.
+			displayFolder: 0.0 Styles Config\Cores
+			lineageTag: f6dc9043-31f1-4ccf-8d0c-0f01982bb807
+
+		measure _Cor_Vermelho_Claro_Suave =
+				
+				"#F4C2C2"
+				// Rosa Claro Suave → Cor calmante para mensagens secundárias, erros menos críticos ou alertas delicados.
+			displayFolder: 0.0 Styles Config\Cores
+			lineageTag: 177e8174-5dff-40ad-b2f4-4af121ee5016
+
+		measure _Cor_Vermelho_Escuro =
+				
+				"#CC0000"
+				// Vermelho Escuro → Indicador de erro, alertas importantes ou avisos críticos, garantindo percepção imediata do usuário.
+			displayFolder: 0.0 Styles Config\Cores
+			lineageTag: 09920934-24a1-4f38-a9bb-71c908a13497
+
+		measure _Cor_Vermelho_Vivo =
+				
+				"#FF4C4C"
+				// Vermelho Vivo → Para botões de ação urgente, destaques fortes e feedbacks de atenção elevada no UI.
+			displayFolder: 0.0 Styles Config\Cores
+			lineageTag: be95e26f-61ad-4fb3-abb7-ea13dedbb97e
+
+		measure 'Resumo Estoque Produtos' = ```
+				
+				VAR vCom =
+				    CALCULATE (
+				        DISTINCTCOUNT ( fEstoqueGeral[DESCRIÇÃO PRODUTO] ),
+				        fEstoqueGeral[STATUS ESTOQUE] = "COM ESTOQUE"
+				    )
+				
+				VAR vSem =
+				    CALCULATE (
+				        DISTINCTCOUNT ( fEstoqueGeral[DESCRIÇÃO PRODUTO] ),
+				        fEstoqueGeral[STATUS ESTOQUE] = "SEM ESTOQUE"
+				    )
+				
+				RETURN
+				"Com Estoque: " & vCom &
+				" Sem Estoque: " & vSem
+				
+				```
+			displayFolder: 1.5 Estoque Quimicos
+			lineageTag: dbadec57-13a1-4299-800c-f5aa67e1529e
+
+		measure 'Resumo Produtos Estoque' = ```
+				
+				
+				VAR vQtd =
+				    DISTINCTCOUNT ( fEstoqueGeral[DESCRIÇÃO PRODUTO] )
+				
+				VAR vQtdFormatado =
+				    FORMAT ( vQtd, "#,##0" )
+				
+				VAR vStatusSelecionado =
+				    SELECTEDVALUE ( fEstoqueGeral[STATUS ESTOQUE] )
+				
+				VAR vTextoItem =
+				    IF ( vQtd = 1, "Item", "Itens" )
+				
+				RETURN
+				SWITCH (
+				    TRUE(),
+				
+				    vStatusSelecionado = "COM ESTOQUE",
+				        "Com Estoque: " & vQtdFormatado & " " & vTextoItem,
+				
+				    vStatusSelecionado = "SEM ESTOQUE",
+				        "Sem Estoque: " & vQtdFormatado & " " & vTextoItem,
+				
+				    "Total de " & vQtdFormatado & " " & vTextoItem
+				)
+				
+				```
+			displayFolder: 1.5 Estoque Quimicos
+			lineageTag: 363aa707-fb4d-4d07-977f-387d541024f3
+
+		column Column
+			isHidden
+			formatString: 0
+			lineageTag: 69d5fe92-28e8-478d-a5c8-7a99962c9f87
+			summarizeBy: sum
+			isNameInferred
+			sourceColumn: [Column]
+
+			annotation SummarizationSetBy = Automatic
+
+		column '2.1 Valor Total Estoque Geral' = ```
+				
+				SUMX(
+				    'fEstoqueGeral',
+				    'fEstoqueGeral'[CUSTO UNITARIO AJUSTADO] * 'fEstoqueGeral'[ESTOQUE AJUSTADO]
+				)
+				
+				```
+			displayFolder: 1.5 Estoque Quimicos
+			lineageTag: 47ba3ceb-4cc3-4202-ac7c-15158be5f8ca
+			summarizeBy: sum
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		partition _Medidas = calculated
+			mode: import
+			source = Row("Column", BLANK())
+
+		annotation PBI_Id = e34dce90310c41d19149022608b63430
+
+		annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+
