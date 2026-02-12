@@ -1,4 +1,4 @@
-Tabela Html_3 = 
+Tabela Html = 
 VAR vPrimarygreen = "#006E61"
 VAR vHeaderbackground = "#F5EFEF"
 VAR vTablebordercolor = "#E0E0E0"
