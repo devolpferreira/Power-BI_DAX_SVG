@@ -1,1 +1,141 @@
 
+PRODUTO_PRINCIPIO_VSGV = 
+VAR vSVG_Width  = 320
+VAR vSVG_Height = 52
+
+-- =====================================================
+-- STATUS
+-- =====================================================
+VAR vStatus =
+    UPPER (
+        TRIM (
+            COALESCE ( fEstoqueGeral[STATUS AJUSTADO], "-" )
+        )
+    )
+
+-- =====================================================
+-- CORES POR STATUS
+-- =====================================================
+VAR vCorVermelhoForte = [_Cor_Vermelho_Vivo]
+VAR vCorVermelhoClaro = [_Cor_Vermelho_Escuro]
+VAR vCorAmarelo       = [_Cor_Amarela_Vibrante]
+VAR vCorVerde         = [_Cor_Verde_Esmeralda_Profundo]
+VAR vCorPreto         = [_Cor_Verde_Esmeralda_Profundo]
+
+VAR vCorBarra =
+    SWITCH (
+        TRUE(),
+        vStatus = "VENCIDO",               vCorVermelhoForte,
+        vStatus = "VENCENDO",              vCorAmarelo,
+        vStatus = "A VENCER",               vCorVerde,
+        vStatus = "-",                     vCorVermelhoClaro,
+        vStatus = "SEM DATA VENCIMENTO",   vCorPreto,
+        [_Cor_Cinza_Medio_Neutro]
+        
+    )
+
+VAR vCorTextoStatus =
+    SWITCH (
+        TRUE(),
+        vStatus = "VENCIDO",              vCorVermelhoForte,
+        vStatus = "VENCENDO",              vCorAmarelo,
+        vStatus = "A VENCER",               vCorVerde,
+        vStatus = "-",                     vCorVermelhoClaro,
+        vStatus = "SEM DATA VENCIMENTO",   vCorPreto,   
+          [_Cor_Verde_Esmeralda_Profundo]
+
+          
+        )
+
+-- =====================================================
+-- DADOS DO PRODUTO
+-- =====================================================
+VAR vProduto = ""
+
+VAR vProdutoNomeCompleto =
+    RELATED ( dBaseProdutos[DESCRIÇÃO PRODUTO] )
+
+VAR vNomeRaw =
+    fEstoqueGeral[NOME_TECNICO_VALIDO]
+
+VAR vNomeTrim =
+    TRIM ( COALESCE ( vNomeRaw, "" ) )
+
+VAR vNomeUp =
+    UPPER ( vNomeTrim )
+
+VAR vSemNome =
+    vNomeTrim = ""
+        || vNomeUp = "<SEM PRINCIPIO ATIVO>"
+
+-- =====================================================
+-- TEXTO DO NOME TÉCNICO
+VAR vTextoNomeTecnico =
+    "<tspan font-size='" & [_Font_Size_9] & "'
+            font-weight='" & [_Font_Weight_Normal] & "'
+            font-style='italic'
+            fill='" & vCorTextoStatus & "'>" &
+        COALESCE (
+            vNomeTrim,
+            "&#160;"   -- só quando for BLANK real
+        ) &
+    "</tspan>"
+-- =====================================================
+-- TEXTO DO PRODUTO
+-- =====================================================
+VAR vProdutoDesc =
+    SUBSTITUTE (
+        SUBSTITUTE (
+            SUBSTITUTE (
+                COALESCE ( vProdutoNomeCompleto, "" ),
+                "&", "&amp;"
+            ),
+            "<", "&lt;"
+        ),
+        ">", "&gt;"
+    )
+
+-- =====================================================
+-- SVG FINAL
+-- =====================================================
+RETURN
+"data:image/svg+xml;utf8,
+<svg width='" & vSVG_Width & "'
+     height='" & vSVG_Height & "'
+     viewBox='0 0 " & vSVG_Width & " " & vSVG_Height & "'
+     xmlns='http://www.w3.org/2000/svg'>
+
+    <!-- BARRA -->
+<path
+    d='M16 2
+       C10.477 2 6 6.477 6 12
+       V40
+       C6 45.523 10.477 50 16 50
+       H13
+       C7.477 50 3 45.523 3 40
+       V12
+       C3 6.477 7.477 2 13 2
+       H16Z'
+      fill='" & vCorBarra & "' />
+
+
+
+    <!-- LINHA 1: PRODUTO -->
+    <text x='13' y='21' font-family='" & [_Fonte_Padrao] & "'>
+        <tspan font-size='" & [_Font_Size_12] & "'
+               font-weight='" & [_Font_Weight_Semi_Bold] & "'
+               fill='" & vCorTextoStatus & "'>" &
+            vProdutoDesc &
+        "</tspan>
+    </text>
+
+    <!-- LINHA 2: NOME TÉCNICO -->
+    <text x='13' y='35' font-family='" & [_Fonte_Padrao] & "'>
+        " & vTextoNomeTecnico & "
+    </text>
+
+</svg>"
+
+
+
+
