@@ -1,7 +1,7 @@
 🧩 Medida Tabela Html
 📌 O que é
 
-A medida Tabela Html_3 é um componente completo de tabela HTML responsiva, gerado inteiramente via DAX, combinando:
+A medida Tabela Html  é um componente completo de tabela HTML responsiva, gerado inteiramente via DAX, combinando:
 
 🎨 CSS com variáveis de tema
 
@@ -159,7 +159,7 @@ Ela demonstra que o DAX pode atuar além de cálculos, funcionando também como:
 
 🧠 Camada de apresentação e layout
 
-✅ Quando usar Tabela Html_3
+✅ Quando usar Tabela Html
 
 Quando o visual de tabela nativo não atende
 
@@ -173,7 +173,7 @@ Em projetos que exigem controle fino de UI
 
 🏁 Conclusão
 
-A medida Tabela Html_3 é um exemplo avançado de UI em Power BI usando DAX + HTML + CSS, mostrando como:
+A medida é um exemplo avançado de UI em Power BI usando DAX + HTML + CSS, mostrando como:
 
 Criar componentes reutilizáveis
 
@@ -183,4 +183,3 @@ Elevar o nível visual dos relatórios
 
 Manter governança e padronização
 
-Ela se encaixa perfeitamente como exemplo de referência dentro do repositório.
