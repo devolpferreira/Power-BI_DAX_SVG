@@ -1,10 +1,10 @@
 📌 Objetivo
 
-A medida PRODUTO_PRINCIPIO_VSGV é responsável por gerar um SVG dinâmico em DAX que exibe:
+A medida PRODUTO_PRINCIPIO_ATIVO_SVG é responsável por gerar um SVG dinâmico em DAX que exibe:
 
 Nome do produto
 
-Nome técnico / princípio ativo
+Nome técnico / ou Principio ativo
 
 Barra lateral de status
 
