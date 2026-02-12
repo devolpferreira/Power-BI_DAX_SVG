@@ -1,6 +1,6 @@
 Objetivo
 
-A medida PRODUTO_PRINCIPIO_ATIVO_STATUS_QUANTIADE_SVG gera um card horizontal em SVG, pensado para ser usado como linha de tabela/matriz no Power BI, exibindo de forma visual e compacta:
+A medida PRODUTO_PRINCIPIO_ATIVO_STATUS_QUANTIDADE_SVG gera um card horizontal em SVG, pensado para ser usado como linha de tabela/matriz no Power BI, exibindo de forma visual e compacta:
 
 Nome do produto
 
