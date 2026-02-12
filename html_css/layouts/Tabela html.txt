@@ -1,0 +1,384 @@
+Tabela Html_3 = 
+VAR vPrimarygreen = "#006E61"
+VAR vHeaderbackground = "#F5EFEF"
+VAR vTablebordercolor = "#E0E0E0"
+VAR vTableborderthicknessn = "1px"
+VAR vForeground = "#000000"
+VAR vCard = "#FFFFFF"
+VAR vborder = "#E0E0E0"
+VAR vFontweightmediumn = 500
+VAR vFontweightnormal = 400
+VAR vRadius = "0.625rem"
+VAR vIgarashisecondary = "#059D35"
+VAR vIgarashitertiary = "#298679"
+VAR vDestructive = "#f04343"
+VAR vStatuswaitingbg = "#FFFBE6"
+VAR vstatuswaitingborder = "#FEE791"
+VAR vStatuswaitingtext = "#977600"
+VAR vStatusapprovedbg = "#E6FFF6"
+VAR vStatusapprovedborder = "#3bd3c1"
+VAR vstatusapprovedtext = "#006E61"
+VAR vpendwarningbg = "#f97316"
+VAR vPendtextcolor = "#000000"
+VAR vFontfamily = "Segoe UI, Tahoma, Geneva, Verdana, sans-serif"
+VAR vFontsizeCabecalho = "0.85em"
+VAR vFontsizeLinhas = "0.72em"
+VAR vPaddingLinhas = "5px"
+VAR vTabelaHtml = "
+<style>
+    /* Variáveis de Tema (Cores e Estilos Igarashi) */
+    :root {
+        --primary-green: " & vPrimarygreen & ";
+        --header-background: " & vHeaderbackground & ";
+        --table-border-color: " & vTablebordercolor & ";
+        --table-border-thickness: " & vTableborderthicknessn & ";
+        --foreground:" & vForeground & ";
+        --card: " & vCard & ";
+        --border: " & vborder & ";
+        --font-weight-medium: " & vFontweightmediumn & ";
+        --font-weight-normal: " & vFontweightnormal & ";
+        --radius: " & vRadius & ";
+        --igarashi-secondary: " & vIgarashisecondary & ";
+        --igarashi-tertiary: " & vIgarashitertiary & ";
+        --destructive: " & vDestructive & ";
+
+        --status-waiting-bg: " & vStatuswaitingbg & ";
+        --status-waiting-border: " & vstatuswaitingborder & ";
+        --status-waiting-text: " & vStatuswaitingtext & ";
+
+        --status-approved-bg: " & vStatusapprovedbg & ";
+        --status-approved-border: " & vStatusapprovedborder & ";
+        --status-approved-text: " & vstatusapprovedtext & ";
+
+        --pend-warning-bg: " & vpendwarningbg & ";
+        --pend-text-color: " & vPendtextcolor & ";
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        color   ;
+        padding: 8px;
+        font-family: " & vFontfamily & ";
+    }
+
+    .table-responsive-wrapper {
+        /* Borda externa principal e arredondamento */
+        border: var(--table-border-thickness) solid var(--table-border-color);
+        border-radius: var(--radius);
+        overflow-x: auto;
+        max-width: 100%;
+        margin: 10px auto;
+        /*box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);*/
+        background: var(--card);
+    }
+
+    table {
+        border: none;
+        border-top: 1px solid var(--table-border-color);
+        border-collapse: collapse;
+        text-align: left;
+        width: 100%;
+        min-width: 1200px;
+        margin: 0;
+        border-radius: 0;
+        overflow: hidden;
+        box-shadow: none;
+        background: var(--card);
+    }
+    /* ----------------------------------------------------------------------
+       CABEÇALHO
+     ---------------------------------------------------------------------- */
+    table thead th {
+        padding: 15px 10px;
+        font-size:" & vFontsizeCabecalho & ";
+        color: var(--primary-green);
+        font-weight: var(--font-weight-medium);
+        background: var(--header-background);
+        border-bottom: 1px solid var(--border);
+        white-space: nowrap;
+    }
+   /* ----------------------------------------------------------------------
+       LINHAS E CÉLULAS
+   ---------------------------------------------------------------------- */
+    table tbody tr td {
+        display: table-cell;
+        font-weight: var(--font-weight-normal);
+        font-size:" & vFontsizeLinhas & ";
+        padding: " & vPaddingLinhas & ";
+        text-align: left;
+        border-bottom: 1px solid var(--border);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        position: relative;
+    }
+
+    table tbody tr {
+        display: table-row;
+        background: var(--card);
+    }
+
+    table tbody tr:hover {
+        background: #f0f0f0;
+    }
+    table tbody tr:last-child td {
+        border-bottom: none;
+    }
+    .qty-cell,
+    .total-cell {
+        text-align: right;
+    }
+
+    .unit-cell {
+        text-align: center;
+        /*font-weight: bold;*/
+    }
+
+    .calendar-icon {
+        margin-right: 5px;
+        color: var(--primary-green);
+    }
+
+    .status {
+        padding: 5px 10px;
+        border-radius: 15px;
+        font-size: 0.85em;
+        font-weight: 600;
+        display: inline-block;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+
+    .status.waiting {
+        background-color: var(--status-waiting-bg);
+        color: var(--status-waiting-text);
+        border: 1px solid var(--status-waiting-border);
+    }
+
+    .status.approved {
+        background-color: var(--status-approved-bg);
+        color: var(--status-approved-text);
+        border: 1px solid var(--status-approved-border);
+    }
+
+    .priority {
+        padding: 5px 10px;
+        border-radius: 15px;
+        /* Ajuste para 4px para prioridade */
+        font-size: 0.85em;
+        font-weight: bold;
+        display: inline-block;
+        color: var(--card);
+        text-align: center;
+    }
+
+    .priority.urgent {
+        background-color: var(--destructive);
+    }
+
+    .priority.normal {
+        background-color: var(--igarashi-secondary);
+    }
+
+    .priority.low {
+        background-color: var(--igarashi-tertiary);
+    }
+
+    /* Estilo Pendente (Qtd Pendente) */
+    .pend-qty {
+        padding: 3px 8px;
+        border-radius: 4px;
+        /*font-weight: bold;*/
+        display: inline-block;
+        color: var(--pend-text-color);
+        /*background-color: var(--pend-warning-bg);*/
+    }
+
+    @media all and (max-width: 800px) {
+        .table-responsive-wrapper {
+            overflow-x: hidden;
+            border: none;
+            box-shadow: none;
+            border-radius: 0;
+        }
+
+        table {
+            min-width: 100%;
+        }
+
+        table thead {
+            display: none;
+        }
+
+        table tbody tr {
+            margin-bottom: 10px;
+            display: block;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            background: var(--card);
+        }
+
+        table tbody tr td {
+            display: flex;
+            justify-content: space-between;
+            text-align: right;
+            padding: 10px 15px;
+            border-bottom: 1px dashed #eee;
+            white-space: normal;
+            overflow: visible;
+            text-overflow: clip;
+        }
+
+        table tbody tr td:last-child {
+            border-bottom: none;
+        }
+
+        table tbody tr td:before {
+            content: attr(data-title);
+            position: initial;
+            display: block;
+            font-weight: var(--font-weight-medium);
+            color: var(--primary-green);
+            min-width: 120px;
+            text-align: left;
+            display: inline-block;
+        }
+    }
+</style>
+
+<!DOCTYPE html>
+<html lang='pt-br'>
+
+<head>
+       
+    <meta charset='UTF-8'>
+        <title>Tabela de Pedidos</title>
+       
+    <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+       
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+       
+    <link href='https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;1,400&display=swap'
+        rel='stylesheet'>
+
+</head>
+
+<body>
+       
+    <div class='table-responsive-wrapper'>
+        <table>
+                        <thead>
+                                <tr>
+                                        <th>Pedido</th>
+                    <th>Prioridade</th>
+                                        <th>Fornecedor</th>
+                                        <th>Dt. Negociado</th>
+                                        <th>Descrição Produto</th>
+                                        <th>Un.</th>
+                                        <th>Qtd Solicitada</th>
+                                        <th>Qtd Pendente</th>
+                                        <th>Vlr. Total</th>
+                                        <th>Aprovação</th>
+                                   
+                </tr>
+                            </thead>
+                        <tbody>
+                                                <tr>
+                                        <td data-title='Pedido'>#12345</td>
+                    <td data-title='Prioridade'><span class='priority urgent'>URGENTE</span></td>
+                                        <td data-title='Fornecedor'>POTATO BR</td>
+                                        <td class='date-cell' data-title='Dt. Negociado'><span
+                            class='calendar-icon'></span> 05/10/2023</td>
+                                        <td data-title='Descrição Produto'>BATATA SEMENTE ORCKESTRA</td>
+                                        <td class='unit-cell' data-title='Un.'>L</td>
+                                        <td class='qty-cell' data-title='Qtd Solicitada'>93.855</td>
+                                        <td class='qty-cell' data-title='Qtd Pendente'><span
+                            class='pend-qty'>24,50</span></td>
+                                        <td class='total-cell' data-title='Vlr. Total'>R$ 87.545,50</td>
+                                        <td data-title='Aprovação'><span class='status approved'>APROVADO</span></td>
+                                   
+                </tr>
+                               
+                                                <tr>
+                                        <td data-title='Pedido'>#12346</td>
+                    <td data-title='Prioridade'><span class='priority urgent'>URGENTE</span></td>
+                                        <td data-title='Fornecedor'>POTATO NOIS</td>
+                                        <td class='date-cell' data-title='Dt. Negociado'><span
+                            class='calendar-icon'></span> 05/10/2023</td>
+                                        <td data-title='Descrição Produto'>BATATA SEMENTE ORCKESTRA</td>
+                                        <td class='unit-cell' data-title='Un.'>L</td>
+                                        <td class='qty-cell' data-title='Qtd Solicitada'>93.855</td>
+                                        <td class='qty-cell' data-title='Qtd Pendente'><span
+                            class='pend-qty'>10,50</span></td>
+                                        <td class='total-cell' data-title='Vlr. Total'>R$ 87.545,50</td>
+                                        <td data-title='Aprovação'><span class='status waiting'>AGUARDANDO
+                            APROVAÇÃO</span></td>                    
+                                   
+                </tr>
+
+                                <tr>
+                                        <td data-title='Pedido'>#12346</td>
+                    <td data-title='Prioridade'><span class='priority urgent'>URGENTE</span></td>
+                                        <td data-title='Fornecedor'>POTATO NOIS</td>
+                                        <td class='date-cell' data-title='Dt. Negociado'><span
+                            class='calendar-icon'></span> 05/10/2023</td>
+                                        <td data-title='Descrição Produto'>BATATA SEMENTE ORCKESTRA GERAÇÂO NOVA</td>
+                                        <td class='unit-cell' data-title='Un.'>L</td>
+                                        <td class='qty-cell' data-title='Qtd Solicitada'>93.855</td>
+                                        <td class='qty-cell' data-title='Qtd Pendente'><span
+                            class='pend-qty'>55,50</span></td>
+                                        <td class='total-cell' data-title='Vlr. Total'>R$ 87.545,50</td>
+                                        <td data-title='Aprovação'><span class='status waiting'>AGUARDANDO
+                            APROVAÇÃO</span></td>                    
+                                   
+                </tr>
+                                <tr>
+                                        <td data-title='Pedido'>#12346</td>
+                    <td data-title='Prioridade'><span class='priority normal'>NORMAL</span></td>
+                                        <td data-title='Fornecedor'>POTATO NOIS FERREIRA SANTOS LTDA</td>
+                                        <td class='date-cell' data-title='Dt. Negociado'><span
+                            class='calendar-icon'></span> 30/10/2023</td>
+                                        <td data-title='Descrição Produto'>BATATA SEMENTE ORCKESTRA GERAÇÂO NOVA DE
+                        BATATAS DO ANO </td>
+                                        <td class='unit-cell' data-title='Un.'>L</td>
+                                        <td class='qty-cell' data-title='Qtd Solicitada'>93.855</td>
+                                        <td class='qty-cell' data-title='Qtd Pendente'><span
+                            class='pend-qty'>55,50</span></td>
+                                        <td class='total-cell' data-title='Vlr. Total'>R$ 87.545,50</td>
+                                        <td data-title='Aprovação'><span class='status approved'>APROVADO</span></td>
+                                   
+                </tr>
+                <tr>
+                                        <td data-title='Pedido'>#3699946</td>
+                    <td data-title='Prioridade'><span class='priority urgent'>URGENTE</span></td>
+                                        <td data-title='Fornecedor'>ARAUJO FERREIRA SANTOS LTDA</td>
+                                        <td class='date-cell' data-title='Dt. Negociado'><span
+                            class='calendar-icon'></span> 30/10/2023</td>
+                                        <td data-title='Descrição Produto'>BATATA SEMENTE GERAÇÂO NOVA DE
+                        BATATAS DO ANO </td>
+                                        <td class='unit-cell' data-title='Un.'>L</td>
+                                        <td class='qty-cell' data-title='Qtd Solicitada'>35.855</td>
+                                        <td class='qty-cell' data-title='Qtd Pendente'><span
+                            class='pend-qty'>10,50</span></td>
+                                        <td class='total-cell' data-title='Vlr. Total'>R$ 10007.545,50</td>
+                                        <td data-title='Aprovação'><span class='status approved'>APROVADO</span></td>
+                                   
+                </tr>
+
+                           
+            </tbody>
+                    </table>
+    </div>
+
+</body>
+
+</html>
+"
+RETURN
+    vTabelaHtml
