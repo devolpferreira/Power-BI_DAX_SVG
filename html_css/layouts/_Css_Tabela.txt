@@ -1,0 +1,111 @@
+_Css_Tabela = 
+"
+<style>
+  body { 
+    font-family:'Segoe UI', Arial, sans-serif; 
+    margin:0; 
+  }
+
+  table {
+    width:100%;
+    border-collapse:collapse;
+    min-width:1200px;
+  }
+
+  thead {
+    background-color:" & [_Cor_Verde_Floresta_Escuro] & ";
+    color:" & [_Cor_Branco_Puro] & ";
+    text-transform:uppercase;
+    font-weight:" & [_Font_Weight_Semi_Bold] & ";
+    position:sticky;
+    top:0;
+    z-index:10;
+  }
+
+  th, td {
+    padding:6px 8px;
+    text-align:left;
+    font-size:" & [_Font_Size_10] & ";
+    border-bottom:1px solid " & [_Cor_Cinza_Claro_Suave] & ";
+  }
+
+  tbody tr:nth-child(even){ background-color:#f9f9f9; }
+  tbody tr:hover{ background-color:#eefaf0; }
+
+  /* Cápsulas */
+  .status-normal {
+    color:" & [_Cor_Verde_Esmeralda_Profundo] & ";
+    background:" & [_Cor_Verde_Agua_Pastel] & ";
+    border:1px solid " & [_Cor_Verde_Esmeralda_Profundo] & ";
+    border-radius:999px;
+    padding:3px 10px;
+    display:inline-block;
+    font-weight:bold;
+    font-size:10px;
+  }
+  .status-urgente {
+    color:" & [_Cor_Vermelho_Escuro] & ";
+    background:" & [_Cor_Vermelho_Claro_Suave] & ";
+    border:1px solid " & [_Cor_Vermelho_Escuro] & ";
+    border-radius:999px;
+    padding:3px 10px;
+    display:inline-block;
+    font-weight:bold;
+    font-size:10px;
+  }
+
+  /* --- Layout Responsivo (Mobile) --- */
+  @media (max-width:700px) {
+    thead { display:none; }
+
+    tbody tr {
+      display:block;
+      border:2px solid " & [_Cor_Cinza_Medio_Neutro] & ";
+      border-radius:14px;
+      padding:14px 10px;
+      margin:14px 0;
+      background:#ffffff;
+      box-shadow:0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    tbody td {
+      display:grid;
+      grid-template-columns: 50% 50%;
+      align-items:center;
+      padding:10px 8px;
+      border-bottom:none;
+      white-space:normal;
+      word-break:break-word;
+    }
+
+    /* Label (nome da coluna) à direita */
+    tbody td::before {
+      content:attr(data-label);
+      text-transform:uppercase;
+      font-weight:" & [_Font_Weight_Semi_Bold] & ";
+      color:" & [_Cor_Verde_Floresta_Escuro] & ";
+      font-size:12px;
+      text-align:right;
+      padding-right:10px;
+      border-right:1px solid " & [_Cor_Cinza_Medio_Neutro] & ";
+      margin-right:10px;
+    }
+
+    /* Valor (conteúdo da coluna) centralizado */
+    tbody td span, tbody td {
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      font-size:13px;
+      color:#111;
+      font-weight:" & [_Font_Weight_Normal] & ";
+      text-align:center;
+    }
+
+    .qtd-un, .vlr-total{
+      font-weight:" & [_Font_Weight_Semi_Bold] & ";
+      color:#000;
+    }
+  }
+</style>
+"
